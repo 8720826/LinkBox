@@ -13,10 +13,11 @@ namespace LinkBox.Pages
         public DbModel(IMigratorService migrator) { _migrator = migrator; }
 		public void OnGet()
         {
+            /*
 			_migrator.MigrateDown(-1);
 
 			_migrator.MigrateUp();
-
+            */
             LinkBoxData.Refresh();
 
         }
