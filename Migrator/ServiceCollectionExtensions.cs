@@ -11,14 +11,14 @@ namespace Home.Migrator
 { 
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddMigrate(this IServiceCollection services,string connectionString)
+        public static IServiceCollection AddMigrate(this IServiceCollection services)
         {
   
             var serviceProvider = services.AddFluentMigratorCore()
                 .ConfigureRunner(rb => rb
                     .AddSQLite()
                     // Set the connection string
-                    .WithGlobalConnectionString(connectionString)
+                    .WithGlobalConnectionString("Data Source = linkbox.db")
                     // Define the assembly containing the migrations
                     .ScanIn(typeof(InitTables).Assembly).For.Migrations())
                 // Enable logging to console in the FluentMigrator way

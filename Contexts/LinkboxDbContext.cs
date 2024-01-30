@@ -11,10 +11,18 @@ namespace LinkBox.Contexts
 
         public DbSet<LinkEntity> Links { get; set; }
 
+		public DbSet<CategoryEntity> Categories { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+		public DbSet<ConfigEntity> Configs { get; set; }
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+           
+        }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite("Data Source = linkbox.db");
         }
 
 

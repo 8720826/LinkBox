@@ -1,0 +1,53 @@
+﻿@page
+@model LinkBox.Pages.Category.IndexModel
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column" id="toptital">
+
+            <div class="col-md-3 column ">
+                <partial name="_Menu" />
+            </div>
+
+            <div class="col-md-9 column" id="right">
+
+                <div id="addpeifang">
+                    <div class="alert alert-success alert-dismissable">
+                        <h4>
+                            分类管理
+                        </h4>
+                        <a asp-page="Add">添加</a>
+                    </div>
+
+                    <table class="table table-bordered table-hover ">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.Categories[0].Name) </th>
+                                <th>@Html.DisplayNameFor(model => model.Categories[0].Type) </th>
+                                <th>@Html.DisplayNameFor(model => model.Categories[0].SortId) </th>
+                                <th> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var cate in Model.Categories)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => cate.Name)</td>
+                                    <td>@Html.DisplayFor(modelItem => cate.Type) </td>
+                                    <td>@Html.DisplayFor(modelItem => cate.SortId) </td>
+                                    <td>
+                                        <a asp-page="./Edit" asp-route-id="@cate.Id">Edit</a> |
+                                        <a asp-page="./Delete" asp-route-id="@cate.Id">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

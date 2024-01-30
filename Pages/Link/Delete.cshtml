@@ -1,0 +1,36 @@
+﻿@page
+@model LinkBox.Pages.Link.DeleteModel
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+
+            <div class="col-md-3 column ">
+                <partial name="_Menu" />
+            </div>
+
+            <div class="col-md-9 column">
+                <div class="alert alert-success alert-dismissable">
+                    <h4>
+                        分类管理 >> 删除分类
+                    </h4>
+                </div>
+
+                <form method="post">
+
+
+                    <input type="hidden" asp-for="Link.Id" />
+                    <div class="form-group">
+                        <p>确认要删除该链接（@(Model.Link.Url)：@(Model.Link.Id)）吗？</p>
+                        <p></p>
+                    </div>
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <button type="submit" class="btn btn-default" id="sub1">确定</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

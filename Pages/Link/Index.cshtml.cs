@@ -1,0 +1,45 @@
+using LinkBox.Contexts;
+using LinkBox.Entities;
+using LinkBox.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using System.Drawing.Printing;
+
+namespace LinkBox.Pages.Link
+{
+    public class IndexModel : PageModel
+    {
+
+        public int PageIndex { get; set; }
+
+        public int PageSize { get; set; } = 100;
+
+ 
+        public PaginatedList<LinkEntity> Links { get; set; }
+
+
+        private readonly LinkboxDbContext _db;
+
+        public IndexModel(LinkboxDbContext db)
+        {
+            _db = db;
+        }
+        public void OnGet()
+        {
+            if (PageIndex < 1)
+            {
+                PageIndex = 1;
+            }
+
+            if (PageSize < 10)
+            {
+                PageSize = 10;
+            }
+
+            var query = _db.Links.OrderByDescending(x => x.Id);
+
+            Links = PaginatedList<LinkEntity>.Create(query.AsNoTracking(), PageIndex, PageSize);
+        }
+    }
+}

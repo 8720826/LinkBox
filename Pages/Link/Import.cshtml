@@ -1,0 +1,34 @@
+﻿@page
+@model LinkBox.Pages.Link.ImportModel
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column" id="toptital">
+
+            <div class="col-md-3 column ">
+                <partial name="_Menu" />
+            </div>
+
+            <div class="col-md-9 column" id="right">
+
+                <div id="addpeifang">
+                    <div class="alert alert-success alert-dismissable">
+                        <h4>
+                            链接管理 >> 导入
+                        </h4>
+                    </div>
+
+                    <form method="post">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+
+                        <button type="submit" class="btn btn-default">确定</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

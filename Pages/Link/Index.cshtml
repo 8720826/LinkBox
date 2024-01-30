@@ -1,0 +1,80 @@
+﻿@page
+@model LinkBox.Pages.Link.IndexModel
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column" id="toptital">
+
+            <div class="col-md-3 column ">
+                <partial name="_Menu" />
+            </div>
+
+            <div class="col-md-9 column" id="right">
+
+                <div id="addpeifang">
+                    <div class="alert alert-success alert-dismissable">
+                        <h4>
+                            链接管理
+                        </h4>
+                        <a asp-page="Add">添加</a>
+                        <a asp-page="Import">导入</a>
+                    </div>
+
+                    <table class="table table-bordered table-hover ">
+                        <thead>
+                            <tr>   
+                                <th>@Html.DisplayNameFor(model => model.Links[0].Title)</th>
+                                <th>@Html.DisplayNameFor(model => model.Links[0].Url) </th>
+                                <th>@Html.DisplayNameFor(model => model.Links[0].SortId) </th>
+                                <th>@Html.DisplayNameFor(model => model.Links[0].Icon) </th>
+                                <th> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Links)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Url)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SortId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Icon)
+                                    </td>
+                                    <td>
+                                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    @{
+                        var prevDisabled = !Model.Links.HasPreviousPage ? "disabled" : "";
+                        var nextDisabled = !Model.Links.HasNextPage ? "disabled" : "";
+                    }
+
+                    <a asp-page="./Index"
+                       asp-route-pageIndex="@(Model.Links.PageIndex - 1)"
+                       class="btn btn-primary @prevDisabled">
+                        上一页
+                    </a>
+                    <a asp-page="./Index"
+                       asp-route-pageIndex="@(Model.Links.PageIndex + 1)"
+                       class="btn btn-primary @nextDisabled">
+                        下一页
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

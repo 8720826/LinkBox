@@ -1,0 +1,72 @@
+﻿@page
+@model LinkBox.Pages.Link.EditModel
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column" id="toptital">
+
+            <div class="col-md-3 column ">
+                <partial name="_Menu" />
+            </div>
+
+            <div class="col-md-9 column" id="right">
+
+                <div id="addpeifang">
+                    <div class="alert alert-success alert-dismissable">
+                        <h4>
+                            链接管理 >> 添加
+                        </h4>
+                    </div>
+
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Link.Id" />
+                        <div class="form-group">
+                            <label asp-for="Link.CategoryId" class="control-label"></label>
+                            <select asp-for="Link.CategoryId" asp-items="Model.Categories" class="form-control">
+                                <option value="">请选择</option>
+                            </select>
+                            <span asp-validation-for="Link.CategoryId" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Link.Title" class="control-label"></label>
+                            <input asp-for="Link.Title" class="form-control" />
+                            <span asp-validation-for="Link.Title" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Link.Url" class="control-label"></label>
+                            <input asp-for="Link.Url" class="form-control" />
+                            <span asp-validation-for="Link.Url" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Link.Icon" class="control-label"></label>
+                            <input asp-for="Link.Icon" class="form-control" />
+                            <span asp-validation-for="Link.Icon" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Link.Description" class="control-label"></label>
+                            <input asp-for="Link.Description" class="form-control" />
+                            <span asp-validation-for="Link.Description" class="text-danger"></span>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <label asp-for="Link.SortId" class="control-label"></label>
+                            <input asp-for="Link.SortId" class="form-control" />
+                            <span asp-validation-for="Link.SortId" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="btn btn-default">确定</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

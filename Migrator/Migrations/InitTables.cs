@@ -43,11 +43,14 @@ namespace Home.Migrator.Migrations
                     .WithColumn("Id").AsInt32().NotNullable().PrimaryKey().Identity()
                     .WithColumn("CategoryId").AsInt32().NotNullable().Indexed()
                     .WithColumn("SortId").AsInt32().NotNullable()
-                    .WithColumn("Title").AsString(2048).NotNullable()
+					.WithColumn("Icon").AsString(2048).NotNullable()
+					.WithColumn("Title").AsString(2048).NotNullable()
                     .WithColumn("Url").AsString(2048).NotNullable()
                     .WithColumn("Description").AsString(2048).NotNullable();
 
-                Insert.IntoTable("Link").Row(new { Title = "LinkBox", Url = "https://github.com/8720826/LinkBox", Description = "一个简洁的个人导航网站", CategoryId = 2, SortId = 1, Id = 1 });
+				Insert.IntoTable("Link").Row(new { Title = "LinkBox", Url = "http://127.0.0.1:5005", Description = "一个简洁的个人导航网站", Icon = "https://www.zhipin.com/favicon.ico", CategoryId = 1, SortId = 1 });
+
+				Insert.IntoTable("Link").Row(new { Title = "LinkBox", Url = "https://github.com/8720826/LinkBox", Description = "一个简洁的个人导航网站",Icon = "https://www.zhipin.com/favicon.ico", CategoryId = 2, SortId = 1});
 
             }
 

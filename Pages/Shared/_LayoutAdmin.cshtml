@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>LinkBox管理 - LinkBox是一个开源免费的个人导航页，可以用于NAS等应用</title>
+    <!-- 包含头部信息用于适应不同设备 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 包含 bootstrap 样式表 -->
+    <!--  <link rel="stylesheet" href="https://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css">-->
+
+    <link rel="stylesheet" href="/lib/bootstrap-3.2.0/css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <div class="jumbotron">
+        <h1>LinkBox</h1>
+        <p>LinkBox是一个开源免费的个人导航页，可以用于NAS等应用</p>
+    </div>
+
+
+    @RenderBody()
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

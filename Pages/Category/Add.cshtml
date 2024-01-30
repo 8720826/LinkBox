@@ -1,0 +1,50 @@
+﻿@page
+@model LinkBox.Pages.Category.AddModel
+@{
+    Layout = "_LayoutAdmin";
+}
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column" id="toptital">
+
+            <div class="col-md-3 column ">
+                <partial name="_Menu" />
+            </div>
+
+            <div class="col-md-9 column" id="right">
+
+                <div id="addpeifang">
+                    <div class="alert alert-success alert-dismissable">
+                        <h4>
+                            分类管理 >> 添加分类
+                        </h4>
+                    </div>
+
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Category.Name" class="control-label"></label>
+                            <input asp-for="Category.Name" class="form-control" />
+                            <span asp-validation-for="Category.Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Category.Type" class="control-label"></label>
+                            <select asp-for="Category.Type" asp-items="Model.CategoryTypes" class="form-control">
+                                <option value="">请选择</option>
+                            </select>
+                            <span asp-validation-for="Category.Type" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Category.SortId" class="control-label"></label>
+                            <input asp-for="Category.SortId" class="form-control" />
+                            <span asp-validation-for="Category.SortId" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="btn btn-default">确定</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

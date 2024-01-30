@@ -1,20 +1,26 @@
+using Home.Migrator;
+using LinkBox.Contexts;
+using LinkBox.Entities;
+using LinkBox.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LinkBox.Pages
 {
-    public class IndexModel : PageModel
-    {
-        private readonly ILogger<IndexModel> _logger;
+    public class IndexModel : BasePageModel
+	{
 
-        public IndexModel(ILogger<IndexModel> logger)
-        {
+		private readonly ILogger<IndexModel> _logger;
+    
+        public IndexModel(ILogger<IndexModel> logger) : base()
+		{
             _logger = logger;
         }
 
         public void OnGet()
         {
 
-        }
+
+		}
     }
 }

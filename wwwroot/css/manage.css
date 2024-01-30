@@ -1,0 +1,47 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background: url('bac1.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+}
+
+#sidea {
+    text-decoration: none;
+    display: block;
+}
+
+#lists:hover {
+    background-color: whitesmoke;
+}
+
+#menu {
+    text-decoration: none;
+    display: block;
+}
+
+#menu:hover {
+    background-color: whitesmoke;
+}
+
+#toptital {
+    padding-top: 10%;
+}
+
+#title-word {
+    text-align: center;
+    color: lightcoral;
+}
+
+#menu2 {
+    padding-left: 10%;
+    background-color: azure;
+}
+
+#menu2:hover {
+    background-color: honeydew;
+}
