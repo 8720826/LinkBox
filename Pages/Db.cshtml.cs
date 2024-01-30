@@ -17,6 +17,7 @@ namespace LinkBox.Pages
 			_migrator.MigrateDown(-1);
 
 			_migrator.MigrateUp();
+            
             */
             LinkBoxData.Refresh();
 

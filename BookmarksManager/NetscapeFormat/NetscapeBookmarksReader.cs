@@ -218,6 +218,7 @@ namespace BookmarksManager
                         break;
                     case "icon":
                         link.IconData = DecodeEmbeddedIcon(attr.Value, out var contentType);
+                        link.IconDataBase64 = attr.Value;
                         link.IconContentType = contentType;
                         break;
                     case "icon_uri":

@@ -24,6 +24,9 @@ namespace BookmarksManager
         /// </summary>
         public byte[] IconData { get; set; }
 
+
+        public string IconDataBase64 { get; set; }
+
         /// <summary>
         ///     favicon content type if it's embedded icon
         /// </summary>

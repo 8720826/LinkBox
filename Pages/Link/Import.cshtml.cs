@@ -4,6 +4,7 @@ using LinkBox.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Text;
 using static NuGet.Packaging.PackagingConstants;
 
 namespace LinkBox.Pages.Link
@@ -36,6 +37,18 @@ namespace LinkBox.Pages.Link
         public void OnGet()
         {
             Init();
+        }
+
+        public static string BinaryToChinese(string input)
+        {
+            StringBuilder sb = new StringBuilder();
+            int numOfBytes = input.Length / 8;
+            byte[] bytes = new byte[numOfBytes];
+            for (int i = 0; i < numOfBytes; ++i)
+            {
+                bytes[i] = Convert.ToByte(input.Substring(8 * i, 8), 2);
+            }
+            return System.Text.Encoding.Unicode.GetString(bytes);
         }
 
         public async Task<IActionResult> OnPost()
@@ -76,13 +89,23 @@ namespace LinkBox.Pages.Link
                 {
                     continue;
                 }
-                  
+
+                var icon = bookmark.IconUrl ?? "";
+                if (string.IsNullOrEmpty(icon))
+                {
+                    if (bookmark.IconDataBase64 != null)
+                    {
+                        icon = bookmark.IconDataBase64;
+                    }
+                }
+
+
                 list.Add(new LinkEntity
                 {
                     Description = bookmark.Description ?? "",
                     Url = bookmark.Url,
                     Title = bookmark.Title ?? "",
-                    Icon = bookmark.IconUrl ?? "",
+                    Icon = icon,
                     SortId = int.MaxValue,
                     CategoryId = CategoryId
                 });
