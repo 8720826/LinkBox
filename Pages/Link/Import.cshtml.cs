@@ -1,9 +1,11 @@
 using BookmarksManager;
 using LinkBox.Contexts;
 using LinkBox.Entities;
+using LinkBox.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using static NuGet.Packaging.PackagingConstants;
 
@@ -20,9 +22,11 @@ namespace LinkBox.Pages.Link
 
         public SelectList Categories { get; set; }
 
+        [Display(Name = "书签文件")]
         [BindProperty]
         public IFormFile BookmarkFile { get; set; }
 
+        [Display(Name = "分类")]
         [BindProperty]
         public int CategoryId { get; set; }
 
@@ -113,6 +117,7 @@ namespace LinkBox.Pages.Link
             }
             _db.Links.AddRange(list);
             _db.SaveChanges();
+            LinkBoxData.Refresh(true);
 
             return RedirectToPage("./Index");
         }

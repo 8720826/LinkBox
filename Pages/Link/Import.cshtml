@@ -17,7 +17,7 @@
                 <div id="addpeifang">
                     <div class="alert alert-success alert-dismissable">
                         <h4>
-                            链接管理 >> 导入
+                            导入链接
                         </h4>
                     </div>
 
@@ -33,8 +33,9 @@
                         </div>
 
                         <div class="form-group">
+                            <label asp-for="BookmarkFile" class="control-label"></label>
                             <input asp-for="BookmarkFile" class="custom-file-input form-control">
-                            <label class="custom-file-label">选择文件</label>
+                            <span asp-validation-for="BookmarkFile" class="text-danger"></span>
                         </div>
 
 

@@ -1,5 +1,6 @@
 using LinkBox.Contexts;
 using LinkBox.Entities;
+using LinkBox.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -52,6 +53,8 @@ namespace LinkBox.Pages.Link
 
             _db.Links.Update(Link);
             await _db.SaveChangesAsync();
+
+            LinkBoxData.Refresh(true);
 
             return RedirectToPage("./Index");
         }

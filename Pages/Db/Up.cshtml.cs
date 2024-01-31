@@ -1,4 +1,5 @@
 using Home.Migrator;
+using LinkBox.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -12,6 +13,7 @@ namespace LinkBox.Pages.Db
         public void OnGet()
         {
             _migrator.MigrateUp();
+            LinkBoxData.Refresh(true);
         }
     }
 }

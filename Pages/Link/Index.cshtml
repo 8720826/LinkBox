@@ -23,14 +23,43 @@
                         <a asp-page="Import">导入</a>
                     </div>
 
-                    <table class="table table-bordered table-hover ">
+                    @if (Model.Links.TotalPages > 1)
+                    {
+                        <nav aria-label="Page navigation example" class="mt-2">
+                            <ul class="pagination">
+                                @if (Model.Links.PageIndex > 1)
+                                {
+                                    <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Links.PageIndex - 1)">上一页</a></li>
+                                }
+                                else
+                                {
+                                    <li class="page-item  disabled"><a class="page-link">上一页</a></li>
+                                }
+
+                                @for (var i = 1; i <= Model.Links.TotalPages; i++)
+                                {
+                                    var act = "";
+                                    if (i == Model.Links.PageIndex) act = "active";
+                                    <li class="page-item @act "><a class="page-link" asp-page="./Index" asp-route-pageIndex="@(i)">@i</a></li>
+                                }
+                                @if (Model.Links.PageIndex < Model.Links.TotalPages)
+                                {
+                                    <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Links.PageIndex + 1)">下一页</a></li>
+                                }
+                                else
+                                {
+                                    <li class="page-item  disabled"><a class="page-link">下一页</a></li>
+                                }
+                            </ul>
+                        </nav>
+                    }
+
+                    <table class="table table-bordered table-hover" style="table-layout:fixed">
                         <thead>
                             <tr>   
                                 <th>@Html.DisplayNameFor(model => model.Links[0].Title)</th>
                                 <th>@Html.DisplayNameFor(model => model.Links[0].Url) </th>
-                                <th>@Html.DisplayNameFor(model => model.Links[0].SortId) </th>
-                                <th>@Html.DisplayNameFor(model => model.Links[0].Icon) </th>
-                                <th> </th>
+                                <th style="width:120px"> </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -38,41 +67,53 @@
                             {
                                 <tr>
                                     <td>
+                                        <img src="@item.Icon" />
                                         @Html.DisplayFor(modelItem => item.Title)
                                     </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Url)
+                                    <td style="white-space:nowrap;word-break:keep-all;text-overflow:ellipsis;overflow:hidden;" title="@item.Url">
+                                        <a href="@item.Url" target="_blank">@Html.DisplayFor(modelItem => item.Url)</a>
                                     </td>
+
+
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.SortId)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Icon)
-                                    </td>
-                                    <td>
-                                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                                        <a asp-page="./Edit" asp-route-id="@item.Id">编辑</a> |
+                                        <a asp-page="./Delete" asp-route-id="@item.Id">删除</a>
                                     </td>
                                 </tr>
                             }
                         </tbody>
                     </table>
 
-                    @{
-                        var prevDisabled = !Model.Links.HasPreviousPage ? "disabled" : "";
-                        var nextDisabled = !Model.Links.HasNextPage ? "disabled" : "";
+                    @if (Model.Links.TotalPages > 1)
+                    {
+                        <nav aria-label="Page navigation example" class="mt-2">
+                            <ul class="pagination">
+                                @if (Model.Links.PageIndex > 1)
+                                {
+                                    <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Links.PageIndex - 1)">上一页</a></li>
+                                }
+                                else
+                                {
+                                    <li class="page-item  disabled"><a class="page-link">上一页</a></li>
+                                }
+                                @for (var i = 1; i <= Model.Links.TotalPages; i++)
+                                {
+                                    var act = "";
+                                    if (i == Model.Links.PageIndex) act = "active";
+                                    <li class="page-item @act "><a class="page-link" asp-page="./Index" asp-route-pageIndex="@(i)">@i</a></li>
+                                }
+                                @if (Model.Links.PageIndex < Model.Links.TotalPages)
+                                {
+                                    <li class="page-item"><a class="page-link" asp-page="./Index" asp-route-pageIndex="@(Model.Links.PageIndex + 1)">下一页</a></li>
+                                }
+                                else
+                                {
+                                    <li class="page-item  disabled"><a class="page-link">下一页</a></li>
+                                }
+                            </ul>
+                        </nav>
                     }
 
-                    <a asp-page="./Index"
-                       asp-route-pageIndex="@(Model.Links.PageIndex - 1)"
-                       class="btn btn-primary @prevDisabled">
-                        上一页
-                    </a>
-                    <a asp-page="./Index"
-                       asp-route-pageIndex="@(Model.Links.PageIndex + 1)"
-                       class="btn btn-primary @nextDisabled">
-                        下一页
-                    </a>
                 </div>
             </div>
         </div>

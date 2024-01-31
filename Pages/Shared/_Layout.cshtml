@@ -1,9 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var db = new LinkBox.Contexts.LinkboxDbContext();
+    var config = db.Configs.FirstOrDefault();
+
+}
+
+<!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
-    <title>LinkBox管理 - LinkBox是一个开源免费的个人导航页，可以用于NAS等应用</title>
+    <title>@(config?.Title) - @(config?.Name)</title>
     <!-- 包含头部信息用于适应不同设备 -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 包含 bootstrap 样式表 -->
@@ -14,15 +20,22 @@
 
 <body>
 
-    <div class="jumbotron">
-        <h1>LinkBox</h1>
-        <p>LinkBox是一个开源免费的个人导航页，可以用于NAS等应用</p>
+
+    <div class="page-header" style="margin-top:0px">
+        <div class="container">
+            <h1>@(config?.Name)</h1>
+            <p>@(config?.Title)</p>
+        </div>
+    </div>
+
+    <div>
+        @RenderBody()
     </div>
 
 
-    @RenderBody()
+    <div class="navbar">
 
-
+    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap-3.2.0/js/bootstrap.min.js"></script>

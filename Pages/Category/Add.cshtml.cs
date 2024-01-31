@@ -1,6 +1,7 @@
 using LinkBox.Contexts;
 using LinkBox.Entities;
 using LinkBox.Entities.Enums;
+using LinkBox.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -31,7 +32,7 @@ namespace LinkBox.Pages.Category
 
         private void Init()
         {
-            CategoryTypes = new SelectList(new List<string> { CategoryTypeEnum.App.ToString(), CategoryTypeEnum.BookMark.ToString() });
+            CategoryTypes = new SelectList(new List<string> { CategoryTypeEnum.应用.ToString(), CategoryTypeEnum.书签.ToString() });
         }
 
         public async Task<IActionResult> OnPost()
@@ -44,6 +45,7 @@ namespace LinkBox.Pages.Category
 
             _db.Categories.Add(Category);
             await _db.SaveChangesAsync();
+            LinkBoxData.Refresh(true);
 
             return RedirectToPage("./Index");
         }

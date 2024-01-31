@@ -5,16 +5,24 @@ namespace LinkBox.Models
 {
 	public static class LinkBoxData
 	{
-		public static List<CategoryEntity> Categories { get; set; } = new List<CategoryEntity>();
+
+        public static List<CategoryEntity> Categories { get; set; } = new List<CategoryEntity>();
 
 		public static List<LinkEntity> Links { get; set; } = new List<LinkEntity>();
 
-		public static LinkBoxConfig Config { get; set; } = new LinkBoxConfig();
+		public static ConfigEntity Config { get; set; } = default!;
 
 
-		public static void Refresh()
+		public static void Refresh(bool force = false)
 		{
-            if (Categories.Count == 0 || Links.Count == 0 || Config.Count == 0)
+            if (force)
+            {
+                Categories = new List<CategoryEntity>();
+                Links = new List<LinkEntity>();
+                Config = default!;
+            }
+
+            if (Categories.Count == 0 || Links.Count == 0 || Config == default!)
             {
                 var db = new LinkboxDbContext();
 
@@ -28,11 +36,9 @@ namespace LinkBox.Models
                     Links = db.Links.ToList();
                 }
 
-                if (Config.Count == 0)
+                if (Config == default!)
                 {
-                    var configs = db.Configs.ToList();
-
-                    Config.Set(configs);
+                    Config = db.Configs.FirstOrDefault();
                 }
             }
         }

@@ -32,8 +32,8 @@ namespace Home.Migrator.Migrations
                  .WithColumn("Type").AsInt32().NotNullable()
                  .WithColumn("SortId").AsInt32().NotNullable();
 
-                Insert.IntoTable("Category").Row(new { Name = "应用", Type = (int)CategoryTypeEnum.App, SortId = 1, Id = 1 });
-                Insert.IntoTable("Category").Row(new { Name = "常用网站", Type = (int)CategoryTypeEnum.BookMark, SortId = 1, Id = 2 });
+                Insert.IntoTable("Category").Row(new { Name = "应用", Type = (int)CategoryTypeEnum.应用, SortId = 1, Id = 1 });
+                Insert.IntoTable("Category").Row(new { Name = "常用网站", Type = (int)CategoryTypeEnum.书签, SortId = 1, Id = 2 });
 
             }
 
@@ -58,9 +58,8 @@ namespace Home.Migrator.Migrations
             {
                 Create.Table("Config")
                  .WithColumn("Id").AsInt32().NotNullable().PrimaryKey().Identity()
-                 .WithColumn("Type").AsInt32().NotNullable()
                  .WithColumn("Name").AsString(64).NotNullable()
-                 .WithColumn("Value").AsString(512).NotNullable();
+                 .WithColumn("Title").AsString(512).NotNullable();
             }
 
         }

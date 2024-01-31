@@ -1,5 +1,6 @@
 using LinkBox.Contexts;
 using LinkBox.Entities;
+using LinkBox.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -50,6 +51,7 @@ namespace LinkBox.Pages.Category
 
             _db.Categories.Remove(Category);
             _db.SaveChanges();
+            LinkBoxData.Refresh(true);
 
             return RedirectToPage("./Index");
         }

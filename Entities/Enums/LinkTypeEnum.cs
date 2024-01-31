@@ -2,7 +2,7 @@
 {
     public enum LinkTypeEnum
     {
-        App = 0,
-        BookMark = 1
+        应用 = 0,
+        书签 = 1
     }
 }

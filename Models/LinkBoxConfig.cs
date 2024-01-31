@@ -14,12 +14,6 @@ namespace LinkBox.Models
 		}
 
 
-		public  string Name
-		{
-			get
-			{
-				return _configs.FirstOrDefault(x => x.Name == ConfigField.Name)?.Value ?? "";
-			}
-		}
+
 	}
 }

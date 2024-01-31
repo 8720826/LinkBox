@@ -1,4 +1,5 @@
 ﻿@page
+
 @model LinkBox.Pages.Dash.IndexModel
 @{
     Layout = "_Layout";
@@ -21,7 +22,7 @@
                         </h4>
                     </div>
 
-                    <p>系统目前一共有190个链接</p>
+                    <p>目前一共有@(LinkBoxData.Categories.Count)个分类，@(LinkBoxData.Links.Count)个链接。</p>
                 </div>
             </div>
         </div>

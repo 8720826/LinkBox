@@ -26,11 +26,11 @@ namespace LinkBox.Template
             Stopwatch stopwatch = Stopwatch.StartNew();
             stopwatch.Start();
             
-            var path = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "Template.cshtml");
+            var path = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "Template/LinkBox.cshtml");
             var html = File.ReadAllText(path,System.Text.Encoding.UTF8);
             
             LinkBoxData.Refresh();
-            var appCategories = LinkBoxData.Categories.Where(x => x.Type == Entities.Enums.CategoryTypeEnum.App).Select(x => new CategoryModel
+            var appCategories = LinkBoxData.Categories.Where(x => x.Type == Entities.Enums.CategoryTypeEnum.应用).Select(x => new CategoryModel
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -44,7 +44,7 @@ namespace LinkBox.Template
                 }).ToList()
             }).ToList();
 
-            var bookmarkCategories = LinkBoxData.Categories.Where(x => x.Type == Entities.Enums.CategoryTypeEnum.BookMark).Select(x => new CategoryModel
+            var bookmarkCategories = LinkBoxData.Categories.Where(x => x.Type == Entities.Enums.CategoryTypeEnum.书签).Select(x => new CategoryModel
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -57,7 +57,14 @@ namespace LinkBox.Template
                     Url = y.Url
                 }).ToList()
             }).ToList();
-            var model = new TemplateModel { AppCategories = appCategories, BookmarkCategories = bookmarkCategories, Config = LinkBoxData.Config };
+
+            var config = new ConfigModel
+            {
+                Name = LinkBoxData.Config?.Name ?? "",
+                Title = LinkBoxData.Config?.Title ?? "",
+            };
+
+            var model = new TemplateModel { AppCategories = appCategories, BookmarkCategories = bookmarkCategories, Config = config };
 
             Console.WriteLine($"time = {stopwatch.ElapsedMilliseconds}");
 

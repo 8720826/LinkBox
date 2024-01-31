@@ -1,5 +1,5 @@
 ﻿@page
-@model LinkBox.Pages.Db.UpModel
+@model LinkBox.Pages.Template.HtmlModel
 @{
     Layout = "_Layout";
 }
@@ -17,11 +17,18 @@
                 <div id="addpeifang">
                     <div class="alert alert-success alert-dismissable">
                         <h4>
-                            数据库升级
+                            自定义模板
                         </h4>
                     </div>
 
-
+                    <form method="post">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="form-group">
+                        </div>
+                        <div class="form-group">
+                        </div>
+                        <button type="submit" class="btn btn-default" id="sub1">确定</button>
+                    </form>
                 </div>
             </div>
         </div>

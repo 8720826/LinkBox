@@ -1,4 +1,5 @@
 using Home.Migrator;
+using LinkBox.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -18,6 +19,7 @@ namespace LinkBox.Pages.Db
             if (_environment.IsDevelopment())
             {
                 _migrator.MigrateDown(v);
+                LinkBoxData.Refresh(true);
             }
            
         }

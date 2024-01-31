@@ -1,14 +1,12 @@
-using LinkBox.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace LinkBox.Pages.Dash
+namespace LinkBox.Pages.Template
 {
-    public class IndexModel : PageModel
+    public class JsModel : PageModel
     {
         public void OnGet()
         {
-            LinkBoxData.Refresh();
         }
     }
 }

@@ -13,6 +13,7 @@ namespace LinkBox.Pages.Link
 
         public int PageIndex { get; set; }
 
+
         public int PageSize { get; set; } = 100;
 
  
@@ -25,8 +26,9 @@ namespace LinkBox.Pages.Link
         {
             _db = db;
         }
-        public void OnGet()
+        public void OnGet(int pageIndex)
         {
+            PageIndex = pageIndex;
             if (PageIndex < 1)
             {
                 PageIndex = 1;

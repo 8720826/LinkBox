@@ -1,4 +1,29 @@
 ﻿@page
 @model LinkBox.Pages.Db.DownModel
 @{
+    Layout = "_Layout";
 }
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column" id="toptital">
+
+            <div class="col-md-3 column ">
+                <partial name="_Menu" />
+            </div>
+
+            <div class="col-md-9 column" id="right">
+
+                <div id="addpeifang">
+                    <div class="alert alert-success alert-dismissable">
+                        <h4>
+                            数据库升级
+                        </h4>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
