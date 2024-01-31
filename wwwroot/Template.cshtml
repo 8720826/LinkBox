@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@Model.Config.Name - LinkBox</title>
+    <link rel="stylesheet" href="/css/site.css" asp-append-version="true" />
+</head>
+<body style="--color-background:#1a1a1a;--color-primary:#FFFDEA;--color-accent:#5c5c5c" class="app-content-uppercase">
+
+    <div class="pageview" id="page-home">
+
+        <div class="container">
+            <div class="module-container" id="search-container">
+                <form action=/ method=POST>
+                    <input name=search id=search autocomplete=off autofocus placeholder=&#32;>
+
+
+                    <label for=search id=search-label>书签太多？试试搜索你想寻找的书签吧 :)</label>
+                </form>
+            </div>
+            <div class=module-container id=hero-container>
+                <div id=plugin-datetime>
+                    <p>
+                        <span>@(System.DateTime.Now.ToString("yyyy年MM月dd日 dddd HH:mm:ss"))</span>
+                    </p>
+                    <h1 class=plugin-container id=plugin-greetings>Hello World</h1>
+                </div>
+            </div>
+
+
+
+            <div class=plugin-container id=container-apps>
+                @foreach (var cate in Model.AppCategories)
+                {
+                <h2><a href=/applications>@(cate.Name)</a></h2>
+                <div class="apps-container clearfix">
+                    @foreach (var link in cate.Links)
+                    {
+                    <div class="app-container" data-id="evernote">
+                        <a target="_blank" rel="noopener" href="@link.Url" class="app-item" title="@link.Title">
+                            <div class="app-icon">
+                                <img src="@(link.Icon)" alt="@link.Title" />
+                            </div>
+                            <div class="app-text">
+                                <p class="app-title">@link.Title</p>
+                                <p class="app-desc">@link.Description</p>
+                            </div>
+                        </a>
+                    </div>
+                    }
+                </div>
+                }
+
+            </div>
+            <div class="plugin-container clearfix" id=container-bookmakrs>
+                <h2><a href=/bookmarks>书签</a></h2>
+                @foreach (var cate in Model.BookmarkCategories)
+                {
+                <div class="bookmark-group-container pull-left">
+                    <h3 class="bookmark-group-title">@(cate.Name)</h3>
+                    <ul class="bookmark-list">
+                        @foreach (var link in cate.Links)
+                        {
+                        <li>
+                            <a target="_blank" rel="noopener" href="@(link.Url)" class="bookmark">
+                                <img src="@(link.Icon)" alt="@link.Title" />
+                                <span>@(link.Title)</span>
+                            </a>
+                        </li>
+                        }
+                    </ul>
+                </div>
+                }
+            </div>
+
+        </div>
+
+
+        <footer class="footer-container">
+            &copy; @(System.DateTime.Now.Year) - <a href="https://github.com/8720826/LinkBox" target="_blank">LinkBox</a>
+        </footer>
+    </div>
+
+
+
+</body>
+</html>

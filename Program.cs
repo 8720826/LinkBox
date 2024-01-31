@@ -1,5 +1,8 @@
 using Home.Migrator;
 using LinkBox.Contexts;
+using LinkBox.Template;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 using System.Text.Json.Serialization;
 
 namespace LinkBox
@@ -21,11 +24,6 @@ namespace LinkBox
             });
 
             builder.Services.AddMemoryCache();
-            builder.Services.AddControllers().AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-            });
             //builder.Services.AddUserAuthentication();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 			builder.Services.AddScoped<IMigratorService, MigratorService>();
@@ -37,6 +35,10 @@ namespace LinkBox
 
 
             var app = builder.Build();
+
+
+
+
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -51,6 +53,10 @@ namespace LinkBox
             //app.UseGlobalExceptionMiddleware();
             app.UseAuthentication();
             app.UseRouting();
+            app.UseEndpoints(endpoints => {
+                endpoints.MapTemplate("/");
+            }); 
+
 
             app.UseAuthorization();
 
