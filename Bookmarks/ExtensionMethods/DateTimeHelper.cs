@@ -1,12 +1,12 @@
 using System;
 
-namespace BookmarksManager
+namespace LinkBox.Bookmarks.ExtensionMethods
 {
     public static class DateTimeHelper
     {
         public static long ToUnixTimestamp(this DateTime time)
         {
-            return (long)((DateTimeOffset)time).ToUnixTimeSeconds();
+            return ((DateTimeOffset)time).ToUnixTimeSeconds();
         }
 
         public static DateTime? FromUnixTimeStamp(long? unixTimeStamp)
@@ -32,7 +32,7 @@ namespace BookmarksManager
                 return number;
             int numberOfDigits = (int)Math.Floor(Math.Log10(number) + 1);
             if (numberOfDigits >= n)
-                return (long)Math.Truncate((number / Math.Pow(10, numberOfDigits - n)));
+                return (long)Math.Truncate(number / Math.Pow(10, numberOfDigits - n));
             else
                 return number;
         }

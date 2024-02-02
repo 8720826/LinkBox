@@ -5,9 +5,11 @@ using LinkBox.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using LinkBox.Authorizations;
 
 namespace LinkBox.Pages.Config
 {
+    [UserAuthorize]
     public class IndexModel : PageModel
     {
         [BindProperty]

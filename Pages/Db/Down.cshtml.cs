@@ -1,4 +1,4 @@
-using Home.Migrator;
+using LinkBox.Migrator;
 using LinkBox.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

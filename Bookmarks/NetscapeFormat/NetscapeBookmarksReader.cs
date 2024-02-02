@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using Majestic12;
+using LinkBox.Bookmarks.ExtensionMethods;
 
-namespace BookmarksManager
+namespace LinkBox.Bookmarks.NetscapeFormat
 {
     /// <summary>
     ///     This class is used for bookmarks container deserialization from Netscape bookmarks format
@@ -87,7 +87,7 @@ namespace BookmarksManager
                 if (AutoDetectEncoding)
                 {
                     InputEncoding = content.GetEncoding();
-                    var headerLengthBytes = HeaderLength*InputEncoding.GetMaxByteCount(1);
+                    var headerLengthBytes = HeaderLength * InputEncoding.GetMaxByteCount(1);
                     var toRead = headerLengthBytes > 0 && headerLengthBytes < content.Length ? headerLengthBytes : content.Length;
                     var header = InputEncoding.GetString(content, 0, toRead);
                     InputEncoding = GetEncoding(header);
@@ -105,7 +105,7 @@ namespace BookmarksManager
 
         private BookmarkFolder Parse(byte[] content)
         {
-            var parser = new HTMLparser(content) {DecodeEntities = true};
+            var parser = new HTMLparser(content) { DecodeEntities = true };
             var rootFolder = ParseFolder(parser, null, true);
             return rootFolder;
         }
@@ -177,7 +177,7 @@ namespace BookmarksManager
                     folder.Title = GetTextOrDontMove(parser);
                     return folder;
                 }
-                else if ((chunk.IsOpenTag && chunk.Tag == "dt") || chunk.Tag == "dl")
+                else if (chunk.IsOpenTag && chunk.Tag == "dt" || chunk.Tag == "dl")
                 {
                     parser.StepBack(prevChunk);
                     break;

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -14,9 +14,13 @@
 
   <ItemGroup>
     <Compile Remove="Pages\Shared\Components\**" />
+    <Compile Remove="wwwroot\icons\**" />
     <Content Remove="Pages\Shared\Components\**" />
+    <Content Remove="wwwroot\icons\**" />
     <EmbeddedResource Remove="Pages\Shared\Components\**" />
+    <EmbeddedResource Remove="wwwroot\icons\**" />
     <None Remove="Pages\Shared\Components\**" />
+    <None Remove="wwwroot\icons\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,10 +32,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0-rc.1.23461.3" />
     <PackageReference Include="RazorEngineCore" Version="2023.11.2" />
     <PackageReference Include="RazorLight" Version="2.3.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\icons\" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.3.0" />
   </ItemGroup>
 
   <ItemGroup>

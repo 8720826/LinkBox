@@ -1,4 +1,5 @@
-using BookmarksManager;
+using LinkBox.Bookmarks;
+using LinkBox.Bookmarks.NetscapeFormat;
 using LinkBox.Contexts;
 using LinkBox.Entities;
 using LinkBox.Models;

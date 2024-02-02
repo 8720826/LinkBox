@@ -1,8 +1,9 @@
-﻿using System;
+﻿using LinkBox.Bookmarks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BookmarksManager
+namespace LinkBox.Bookmarks.ExtensionMethods
 {
     public static class BookmarksHelpers
     {

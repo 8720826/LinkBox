@@ -1,3 +1,4 @@
+using LinkBox.Authorizations;
 using LinkBox.Contexts;
 using LinkBox.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -5,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace LinkBox.Pages.Category
 {
+    [UserAuthorize]
     public class IndexModel : PageModel
     {
         public List<CategoryEntity> Categories { get; set; }

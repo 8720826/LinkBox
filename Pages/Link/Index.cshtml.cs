@@ -1,3 +1,4 @@
+using LinkBox.Authorizations;
 using LinkBox.Contexts;
 using LinkBox.Entities;
 using LinkBox.Models;
@@ -8,6 +9,7 @@ using System.Drawing.Printing;
 
 namespace LinkBox.Pages.Link
 {
+    [UserAuthorize]
     public class IndexModel : PageModel
     {
 

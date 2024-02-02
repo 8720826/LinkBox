@@ -1,3 +1,4 @@
+using LinkBox.Authorizations;
 using LinkBox.Contexts;
 using LinkBox.Entities;
 using LinkBox.Models;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LinkBox.Pages.Link
 {
+    [UserAuthorize]
     public class EditModel : PageModel
     {
         [BindProperty]

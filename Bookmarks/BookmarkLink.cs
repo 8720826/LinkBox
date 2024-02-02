@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 
-namespace BookmarksManager
+namespace LinkBox.Bookmarks
 {
     public class BookmarkLink : IBookmarkLink
     {

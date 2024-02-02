@@ -1,7 +1,8 @@
 ﻿using FluentMigrator;
 using LinkBox.Entities.Enums;
+using LinkBox.Extentions;
 
-namespace Home.Migrator.Migrations
+namespace LinkBox.Migrator.Migrations
 {
     [Migration(0)]
     public class InitTables : Migration
@@ -11,15 +12,15 @@ namespace Home.Migrator.Migrations
             if (!Schema.Table("User").Exists())
             {
                 Create.Table("User")
-                    .WithColumn("Id") .AsInt32().NotNullable().PrimaryKey().Identity()
+                    .WithColumn("Id").AsInt32().NotNullable().PrimaryKey().Identity()
                     .WithColumn("Name").AsString(64).NotNullable()
                     .WithColumn("Password").AsString(64).NotNullable();
 
                 Insert.IntoTable("User").Row(new
                 {
                     Name = "admin",
-                    Password = "admin",
-                    Id=1
+                    Password = "admin".ToMd5(),
+                    Id = 1
                 });
             }
 
@@ -43,14 +44,14 @@ namespace Home.Migrator.Migrations
                     .WithColumn("Id").AsInt32().NotNullable().PrimaryKey().Identity()
                     .WithColumn("CategoryId").AsInt32().NotNullable().Indexed()
                     .WithColumn("SortId").AsInt32().NotNullable()
-					.WithColumn("Icon").AsString(2048).NotNullable()
-					.WithColumn("Title").AsString(2048).NotNullable()
+                    .WithColumn("Icon").AsString(2048).NotNullable()
+                    .WithColumn("Title").AsString(2048).NotNullable()
                     .WithColumn("Url").AsString(2048).NotNullable()
                     .WithColumn("Description").AsString(2048).NotNullable();
 
-				Insert.IntoTable("Link").Row(new { Title = "LinkBox", Url = "http://127.0.0.1:5005", Description = "一个简洁的个人导航网站", Icon = "https://www.zhipin.com/favicon.ico", CategoryId = 1, SortId = 1 });
+                Insert.IntoTable("Link").Row(new { Title = "LinkBox", Url = "http://127.0.0.1:5005", Description = "一个简洁的个人导航网站", Icon = "https://www.zhipin.com/favicon.ico", CategoryId = 1, SortId = 1 });
 
-				Insert.IntoTable("Link").Row(new { Title = "LinkBox", Url = "https://github.com/8720826/LinkBox", Description = "一个简洁的个人导航网站",Icon = "https://www.zhipin.com/favicon.ico", CategoryId = 2, SortId = 1});
+                Insert.IntoTable("Link").Row(new { Title = "LinkBox", Url = "https://github.com/8720826/LinkBox", Description = "一个简洁的个人导航网站", Icon = "https://www.zhipin.com/favicon.ico", CategoryId = 2, SortId = 1 });
 
             }
 
@@ -60,6 +61,8 @@ namespace Home.Migrator.Migrations
                  .WithColumn("Id").AsInt32().NotNullable().PrimaryKey().Identity()
                  .WithColumn("Name").AsString(64).NotNullable()
                  .WithColumn("Title").AsString(512).NotNullable();
+
+                Insert.IntoTable("Config").Row(new { Name = "LinkBox", Title = "一个简洁、可全自定义的个人导航网站",  Id = 1 });
             }
 
         }
@@ -68,7 +71,7 @@ namespace Home.Migrator.Migrations
 
         public override void Down()
         {
-            
+
             if (Schema.Table("User").Exists())
             {
                 Delete.Table("User");

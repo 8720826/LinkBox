@@ -1,5 +1,5 @@
 ﻿using FluentMigrator.Runner;
-using Home.Migrator.Migrations;
+using LinkBox.Migrator.Migrations;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Home.Migrator
-{ 
+namespace LinkBox.Migrator
+{
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddMigrate(this IServiceCollection services)
         {
-  
+
             var serviceProvider = services.AddFluentMigratorCore()
                 .ConfigureRunner(rb => rb
                     .AddSQLite()

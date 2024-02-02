@@ -1,3 +1,4 @@
+using LinkBox.Authorizations;
 using LinkBox.Contexts;
 using LinkBox.Entities;
 using LinkBox.Entities.Enums;
@@ -9,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LinkBox.Pages.Category
 {
+    [UserAuthorize]
     public class AddModel : PageModel
     {
         [BindProperty]

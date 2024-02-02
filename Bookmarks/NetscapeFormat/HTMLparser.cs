@@ -52,7 +52,7 @@ using System.Text;
 //							 
 // 
 // 
-namespace Majestic12
+namespace LinkBox.Bookmarks.NetscapeFormat
 {
     /// <summary>
     ///     Type of parsed HTML chunk (token)
@@ -90,7 +90,7 @@ namespace Majestic12
         ///     we do NOT have range checks because we make reasonably safe assumption that accumulated string will
         ///     fit into the buffer. If you have very abnormal strings then you should increase buffer accordingly.
         /// </summary>
-        public static int TEXT_CAPACITY = 1024*128 - 1;
+        public static int TEXT_CAPACITY = 1024 * 128 - 1;
 
         public byte[] bBuffer;
         public int iBufPos;
@@ -204,7 +204,7 @@ namespace Majestic12
         /// <summary>
         ///     Maximum default capacity of buffer that will keep data
         /// </summary>
-        public static int TEXT_CAPACITY = 1024*128;
+        public static int TEXT_CAPACITY = 1024 * 128;
 
         /// <summary>
         ///     Maximum number of parameters in a tag - should be high enough to fit most
@@ -859,14 +859,14 @@ namespace Majestic12
                 var cChar = sLine[i];
 
                 // yeah I know its lame but its 3:30am and I had v.long debugging session :-/
-                switch ((int) cChar)
+                switch ((int)cChar)
                 {
                     case 39:
                     case 145:
                     case 146:
                     case 147:
                     case 148:
-                        oSB.Append("&#" + ((int) cChar) + ";");
+                        oSB.Append("&#" + (int)cChar + ";");
                         continue;
 
                     default:
@@ -983,7 +983,7 @@ namespace Majestic12
 
             // we reach this function immediately after tag's byte (<) was
             // detected, so we need to save it in order to keep correct HTML copy
-            CurrentChunk.Append((byte) '<'); // (byte)'<'
+            CurrentChunk.Append((byte)'<'); // (byte)'<'
 
             /*
 			oChunk.bBuffer[0]=60;
@@ -1008,7 +1008,7 @@ namespace Majestic12
                         cChar = HtmlBytes[CurPos++];
 
                         if (cChar != ' ' && cChar != '\t' && cChar != 13 && cChar != 10)
-                            //if(!char.IsWhiteSpace((char)cChar))
+                        //if(!char.IsWhiteSpace((char)cChar))
                         {
                             //PutChar();
                             //iCurPos--;
@@ -1022,8 +1022,8 @@ namespace Majestic12
 
                     //cChar=NextChar();
 
-                    if (bWhiteSpace && (KeepRawHTML || !bGotTag || (bGotTag && bComments)))
-                        CurrentChunk.Append((byte) ' ');
+                    if (bWhiteSpace && (KeepRawHTML || !bGotTag || bGotTag && bComments))
+                        CurrentChunk.Append((byte)' ');
                 }
                 else
                 {
@@ -1038,7 +1038,7 @@ namespace Majestic12
                         // we don't want that nasty unnecessary 0x0D or 13 byte :-/
                         if (cChar != 13 && (bKeepWhiteSpace || bComments || bQuotes))
                         {
-                            if (KeepRawHTML || !bGotTag || (bGotTag && bComments))
+                            if (KeepRawHTML || !bGotTag || bGotTag && bComments)
                                 CurrentChunk.Append(cChar);
 
                             //sText.Append(cChar);
@@ -1071,7 +1071,7 @@ namespace Majestic12
                 //if(cChar=='&')
                 if (cChar == 38 && !bComments)
                 {
-                    cChar = (byte) CheckForEntity();
+                    cChar = (byte)CheckForEntity();
 
                     // restore current symbol
                     if (cChar == 0)
@@ -1097,19 +1097,19 @@ namespace Majestic12
 
                 // cPeek=Peek();
 
-                cPeek = CurPos < DataLength ? HtmlBytes[CurPos] : (byte) 0;
+                cPeek = CurPos < DataLength ? HtmlBytes[CurPos] : (byte)0;
 
                 // check if we've got tag now: either whitespace before current symbol or the next one is end of string
                 if (!bGotTag)
                 {
                     CurrentChunk.Append(cChar);
 
-                    if ((Text.iBufPos >= 3 && (Text.bBuffer[0] == '!' && Text.bBuffer[1] == '-' && Text.bBuffer[2] == '-')))
+                    if (Text.iBufPos >= 3 && Text.bBuffer[0] == '!' && Text.bBuffer[1] == '-' && Text.bBuffer[2] == '-')
                         bComments = true;
 
-                    if (bWhiteSpace || (!bWhiteSpace && cPeek == '>') || cPeek == 0 || bComments)
+                    if (bWhiteSpace || !bWhiteSpace && cPeek == '>' || cPeek == 0 || bComments)
 
-                        //|| sText.sText=="!--") || sText.ToString()=="!--"))	//(sText.bBuffer[0]=='!' || sText.sText=="!--") &&
+                    //|| sText.sText=="!--") || sText.ToString()=="!--"))	//(sText.bBuffer[0]=='!' || sText.sText=="!--") &&
                     {
                         if (cPeek == '>' && cChar != '/')
                             Text.Append(cChar);
@@ -1139,7 +1139,7 @@ namespace Majestic12
                     // ought to be parameter
                     if (Text.iBufPos != 0 && !CurrentChunk.bComments)
                     {
-                        if ((bWhiteSpace && !bQuotes) || (cPeek == 0 || cPeek == '>'))
+                        if (bWhiteSpace && !bQuotes || cPeek == 0 || cPeek == '>')
                         {
                             if (cPeek == '>' && cChar != '/' && cQuotes != cChar)
                                 Text.Append(cChar);
@@ -1175,7 +1175,7 @@ namespace Majestic12
                     case 0:
                         goto GetOut;
 
-                        //case (byte)'>':
+                    //case (byte)'>':
                     case 62:
 
                         //bQuotesAllowed=false;
@@ -1204,9 +1204,9 @@ namespace Majestic12
 
                         break;
 
-                        //case (byte)'"':
+                    //case (byte)'"':
                     case 34:
-                        //case (byte)'\'':
+                    //case (byte)'\'':
                     case 39:
 
                         if (bQuotes)
@@ -1230,7 +1230,7 @@ namespace Majestic12
 
                         break;
 
-                        //case (byte)'/':
+                    //case (byte)'/':
                     case 47:
 
                         if (!bQuotes && !bGotTag)
@@ -1242,7 +1242,7 @@ namespace Majestic12
 
                     default:
 
-                        AddSymbol:
+                    AddSymbol:
 
                         //if(bWhiteSpace && bQuotes)
                         //	sText.Append(0x20);
@@ -1259,10 +1259,10 @@ namespace Majestic12
 							}
 							else
 						*/
-                    {
-                        //sText.Length++;
-                        Text.bBuffer[Text.iBufPos++] = cChar;
-                    }
+                        {
+                            //sText.Length++;
+                            Text.bBuffer[Text.iBufPos++] = cChar;
+                        }
 
 
                         break;
@@ -1270,7 +1270,7 @@ namespace Majestic12
                 ;
             }
 
-            GetOut:
+        GetOut:
 
             if (CurrentChunk.bComments)
                 CurrentChunk.Type = HTMLchunkType.Comment;
@@ -1311,7 +1311,7 @@ namespace Majestic12
         /// <param name="iChars">Number of chars</param>
         private void PutChars(int iChars)
         {
-            if ((CurPos - iChars) >= 0)
+            if (CurPos - iChars >= 0)
                 CurPos -= iChars;
         }
 
@@ -1409,7 +1409,7 @@ namespace Majestic12
 
                 switch (cChar)
                 {
-                        //case '<':
+                    //case '<':
                     case 60:
 
 
@@ -1441,11 +1441,11 @@ namespace Majestic12
 
                         return CurrentChunk;
 
-                        /*
-						 * case 179:
-							Console.WriteLine("Found: {0} in {1}!",(char)cChar,oChunk.oHTML.ToString());
-							break;
-							*/
+                    /*
+                     * case 179:
+                        Console.WriteLine("Found: {0} in {1}!",(char)cChar,oChunk.oHTML.ToString());
+                        break;
+                        */
 
                     case 13:
                         break;
@@ -1479,11 +1479,11 @@ namespace Majestic12
                             // check if its entity
                             if (cChar == '&')
                             {
-                                cChar = (byte) CheckForEntity();
+                                cChar = (byte)CheckForEntity();
 
                                 // restore current symbol
                                 if (cChar == 0)
-                                    cChar = (byte) '&';
+                                    cChar = (byte)'&';
                                 else
                                 {
                                     CurrentChunk.bEntities = true;
@@ -1508,7 +1508,7 @@ namespace Majestic12
                                 }
                                 else
                                 {
-                                    if (char.IsPunctuation((char) cChar))
+                                    if (char.IsPunctuation((char)cChar))
                                     {
                                         if (CurrentChunk.iBufPos > 0)
                                         {
@@ -1523,7 +1523,7 @@ namespace Majestic12
                             else
                             {
                                 if (bWhiteSpace && TextMode)
-                                    CurrentChunk.Append((byte) ' ');
+                                    CurrentChunk.Append((byte)' ');
                             }
 
                             CurrentChunk.Append(cChar);
@@ -1557,7 +1557,7 @@ namespace Majestic12
 
         {
             if (!DecodeEntities)
-                return (char) 0;
+                return (char)0;
 
             var iChars = 0;
             byte cChar;
@@ -1608,7 +1608,7 @@ namespace Majestic12
                 // Break on:
                 // 1) ; - proper end of entity
                 // 2) number 10-based entity but current byte is not a number
-                if (cChar == ';' || (bCharCode && !bCharCodeHex && !char.IsNumber((char) cChar)))
+                if (cChar == ';' || bCharCode && !bCharCodeHex && !char.IsNumber((char)cChar))
                 {
 
 
@@ -1627,7 +1627,7 @@ namespace Majestic12
 
                                 iChar = !bCharCodeHex ? int.Parse(sEntity) : int.Parse(sEntity, NumberStyles.HexNumber);
 
-                                return (char) iChar;
+                                return (char)iChar;
                             }
                         }
 
@@ -1635,7 +1635,7 @@ namespace Majestic12
                         {
                             int charIndex;
                             if (Entities.TryGetValue(sEntity, out charIndex))
-                                return (char) charIndex;
+                                return (char)charIndex;
                         }
                     }
 
@@ -1658,7 +1658,7 @@ namespace Majestic12
             if (iChars > 0)
                 PutChars(iChars);
 
-            return (char) (0);
+            return (char)0;
         }
     }
 }

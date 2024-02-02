@@ -1,10 +1,12 @@
+using LinkBox.Bookmarks;
+using LinkBox.Bookmarks.ExtensionMethods;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
 
-namespace BookmarksManager
+namespace LinkBox.Bookmarks.NetscapeFormat
 {
     /// <summary>
     ///     This class is used for bookmarks container serialization to Netscape bookmarks format
@@ -22,7 +24,7 @@ namespace BookmarksManager
     <H1>Bookmarks</H1>";
 
         public const string Indentation = "    ";
-        public static readonly string[] IgnoredAttributes = {"last_modified", "icon", "icon_uri", "href", "last_visit", "add_date", "feedurl"};
+        public static readonly string[] IgnoredAttributes = { "last_modified", "icon", "icon_uri", "href", "last_visit", "add_date", "feedurl" };
 
 
         public NetscapeBookmarksWriter(BookmarkFolder bookmarksContainer)
@@ -36,7 +38,7 @@ namespace BookmarksManager
                 throw new ArgumentNullException(nameof(outputTextWriter));
             outputTextWriter.Write(NetscapeBookmarksFileHead, OutputEncoding.WebName);
             outputTextWriter.WriteLine();
-            using (var writer = XmlWriter.Create(outputTextWriter, new XmlWriterSettings {ConformanceLevel = ConformanceLevel.Fragment, Indent = false, Encoding = OutputEncoding}))
+            using (var writer = XmlWriter.Create(outputTextWriter, new XmlWriterSettings { ConformanceLevel = ConformanceLevel.Fragment, Indent = false, Encoding = OutputEncoding }))
             {
                 WriteFolderItems(BookmarksContainer, outputTextWriter, writer, 0);
             }

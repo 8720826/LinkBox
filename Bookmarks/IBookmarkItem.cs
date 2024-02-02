@@ -1,6 +1,6 @@
 using System;
 
-namespace BookmarksManager
+namespace LinkBox.Bookmarks
 {
     public interface IBookmarkItem
     {

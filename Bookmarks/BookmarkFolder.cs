@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace BookmarksManager
+namespace LinkBox.Bookmarks
 {
     public class BookmarkFolder : Collection<IBookmarkItem>, IBookmarkFolder
     {
@@ -33,21 +33,21 @@ namespace BookmarksManager
         /// <summary>
         /// All links from all folders in flat structure
         /// </summary>
-        public IEnumerable<BookmarkLink> AllLinks => this.GetAllItems<BookmarkLink>();
+        public IEnumerable<BookmarkLink> AllLinks => GetAllItems<BookmarkLink>();
 
         /// <summary>
         /// All items (links, folders and custom IBookmarkItem objects) in flat structure
         /// </summary>
-        public IEnumerable<IBookmarkItem> AllItems => this.GetAllItems<IBookmarkItem>();
+        public IEnumerable<IBookmarkItem> AllItems => GetAllItems<IBookmarkItem>();
 
         /// <summary>
         /// All folders in flat structure
         /// </summary>
-        public IEnumerable<IBookmarkFolder> AllFolders => this.GetAllItems<IBookmarkFolder>();
+        public IEnumerable<IBookmarkFolder> AllFolders => GetAllItems<IBookmarkFolder>();
 
         public BookmarkFolder()
         {
-           
+
         }
 
         public BookmarkFolder(string title) : this()
@@ -60,13 +60,13 @@ namespace BookmarksManager
         /// </summary>
         /// <typeparam name="T">Specifies what type of items to return</typeparam>
         /// <returns>Flattened list of <typeparamref name="T"/> items</returns>
-        public virtual IEnumerable<T> GetAllItems<T>() where T : class,IBookmarkItem
+        public virtual IEnumerable<T> GetAllItems<T>() where T : class, IBookmarkItem
         {
-            return this.GetAllItems<T>(this);
+            return GetAllItems<T>(this);
         }
 
 
-        private IEnumerable<T> GetAllItems<T>(IBookmarkFolder folder) where T : class,IBookmarkItem
+        private IEnumerable<T> GetAllItems<T>(IBookmarkFolder folder) where T : class, IBookmarkItem
         {
             foreach (var item in folder)
             {

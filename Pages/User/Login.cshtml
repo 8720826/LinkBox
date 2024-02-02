@@ -23,12 +23,17 @@
                         </h4>
                     </div>
 
-                    <form role="form" action="/dash">
+                    <form method="post">
+                        <div asp-validation-summary="All" class="text-danger"></div>
                         <div class="form-group">
-                            <label for="exampleInputText1">用户名</label><input type="text" class="form-control" id="exampleInputText1" name="step" />
+                            <label asp-for="User.Name" class="control-label"></label>
+                            <input asp-for="User.Name" class="form-control" />
+                            <span asp-validation-for="User.Name" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputText1">密码</label><input type="text" class="form-control" id="exampleInputText2" name="operation" />
+                            <label asp-for="User.Password" class="control-label"></label>
+                            <input asp-for="User.Password" class="form-control" type="password" />
+                            <span asp-validation-for="User.Password" class="text-danger"></span>
                         </div>
                         <button type="submit" class="btn btn-default" id="sub1">确定</button>
                     </form>

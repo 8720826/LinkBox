@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 
-namespace BookmarksManager
+namespace LinkBox.Bookmarks
 {
     public abstract class BookmarksReaderBase<T> where T : class, new()
     {

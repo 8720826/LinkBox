@@ -1,4 +1,4 @@
-namespace BookmarksManager
+namespace LinkBox.Bookmarks
 {
     public interface IBookmarkLink : IBookmarkItem
     {

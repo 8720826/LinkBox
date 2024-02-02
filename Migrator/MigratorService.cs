@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Home.Migrator
+namespace LinkBox.Migrator
 {
-    public class MigratorService: IMigratorService
+    public class MigratorService : IMigratorService
     {
         private IMigrationRunner runner;
 
@@ -20,7 +20,7 @@ namespace Home.Migrator
         public string MigrateUp()
         {
             var errs = ConsoleHook(() => runner.MigrateUp());
-            var result = String.IsNullOrEmpty(errs) ? "Success" : errs;
+            var result = string.IsNullOrEmpty(errs) ? "Success" : errs;
 
             return result;
         }
@@ -31,7 +31,7 @@ namespace Home.Migrator
         public string MigrateDown(long version)
         {
             var errs = ConsoleHook(() => runner.MigrateDown(version));
-            var result = String.IsNullOrEmpty(errs) ? "Success" : errs;
+            var result = string.IsNullOrEmpty(errs) ? "Success" : errs;
 
             return result;
         }

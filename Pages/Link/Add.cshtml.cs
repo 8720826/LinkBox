@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using LinkBox.Models;
+using LinkBox.Authorizations;
 
 namespace LinkBox.Pages.Link
 {
+    [UserAuthorize]
     public class AddModel : PageModel
     {
         [BindProperty]

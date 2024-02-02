@@ -26,7 +26,7 @@ namespace LinkBox.Template
             Stopwatch stopwatch = Stopwatch.StartNew();
             stopwatch.Start();
             
-            var path = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "Template/LinkBox.cshtml");
+            var path = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "Template/index.html");
             var html = File.ReadAllText(path,System.Text.Encoding.UTF8);
             
             LinkBoxData.Refresh();
