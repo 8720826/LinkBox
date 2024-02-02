@@ -1,6 +1,8 @@
 using LinkBox.Authorizations;
 using LinkBox.Models.Template;
+using LinkBox.Template;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Hosting;
 
@@ -28,6 +30,16 @@ namespace LinkBox.Pages.Template
         {
             if (!ModelState.IsValid)
             {
+                return Page();
+            }
+
+            try
+            {
+                var result = TemplateProvider.Compile(Template.Html);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
                 return Page();
             }
 
