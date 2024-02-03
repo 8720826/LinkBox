@@ -18,6 +18,10 @@ namespace LinkBox.Pages.Template
         [BindProperty]
         public ModifyJsModel Template { get; set; } = new ModifyJsModel();
 
+
+        public string Message { get; set; } = "自定义脚本";
+
+
         public void OnGet()
         {
             var path = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "Template/index.js");
@@ -26,6 +30,8 @@ namespace LinkBox.Pages.Template
 
         public async Task<IActionResult> OnPost()
         {
+            Message = "自定义脚本";
+
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -34,7 +40,9 @@ namespace LinkBox.Pages.Template
             var path = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "Template/index.js");
             System.IO.File.WriteAllText(path, Template.Js);
 
-            return RedirectToPage("/template/js");
+            Message = "更新成功！";
+
+            return Page();
         }
     }
 }

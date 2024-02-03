@@ -3,19 +3,20 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@Model.Config.Name - @Model.Config.Title </title>
-    <link rel="stylesheet" href="/template/index.css" asp-append-version="true" />
+    <title>@Model.Config.Name - LinkBox</title>
+    <link rel="stylesheet" href="/css/site.css" asp-append-version="true" />
 </head>
-<body class="app-content-uppercase">
+<body style="--color-background:#1a1a1a;--color-primary:#FFFDEA;--color-accent:#5c5c5c" class="app-content-uppercase">
 
     <div class="pageview" id="page-home">
 
         <div class="container">
             <div class="module-container" id="search-container">
-                <form action="https://www.baidu.com/s" method="get" target="_blank">
-                    <input name="wd" id="search" autocomplete="off" autofocus placeholder="&#32;">
+                <form action=/ method=POST>
+                    <input name=search id=search autocomplete=off autofocus placeholder=&#32;>
 
-                    <label for=search id=search-label>按回车键百度一下 :)</label>
+
+                    <label for=search id=search-label>书签太多？试试搜索你想寻找的书签吧 :)</label>
                 </form>
             </div>
             <div class=module-container id=hero-container>

@@ -18,6 +18,8 @@ namespace LinkBox.Pages.Template
         [BindProperty]
         public ModifyCssModel Template { get; set; } = new ModifyCssModel();
 
+        public string Message { get; set; } = "自定义样式";
+
         public void OnGet()
         {
             var path = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "Template/index.css");
@@ -26,6 +28,8 @@ namespace LinkBox.Pages.Template
 
         public async Task<IActionResult> OnPost()
         {
+            Message = "自定义样式";
+
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -34,7 +38,9 @@ namespace LinkBox.Pages.Template
             var path = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "Template/index.css");
             System.IO.File.WriteAllText(path, Template.Css);
 
-            return RedirectToPage("/template/css");
+            Message = "更新成功！";
+
+            return Page();
         }
     }
 }
