@@ -3,8 +3,11 @@ using LinkBox.Contexts;
 using LinkBox.Migrator;
 using LinkBox.Template;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.WebEncoders;
 using System.Security.Claims;
+using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
+using System.Text.Unicode;
 
 namespace LinkBox
 {
@@ -36,6 +39,7 @@ namespace LinkBox
             builder.Services.AddDbContext<LinkboxDbContext>();
             builder.Services.AddMigrate();
 
+            builder.Services.Configure<WebEncoderOptions>(options => options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All));
 
             var app = builder.Build();
 
