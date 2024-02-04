@@ -9,10 +9,8 @@ on:
 env:
   # 仓库地址
   REGISTRY: docker.io
-  DOCKER_NAME: 8720826 
+  IMAGE_NAME: 8720826/linkbox 
   IMAGE_TAG: v1.0
-  PROJECT_NAME: linkbox
-  PORT: 5274
 
 jobs:
   build:
@@ -23,28 +21,29 @@ jobs:
       id-token: write
 
     steps:
-
+      # 将远程仓库中的源代码领取到workfile自动化构建脚本运行的服务器
       - name: Checkout repository
         uses: actions/checkout@v3 
+
 
       - name: Build the Docker image
         run: |
           docker version
-          docker login --username={{ env.DOCKER_NAME }} --password=${{ secrets.DOCKER_PASSWORD }} {{ env.REGISTRY }}
-          docker build . --file ./Dockerfile --tag {{ env.REGISTRY }}/{{ env.DOCKER_NAME }}/{{ env.PROJECT_NAME }}:${{ env.IMAGE_TAG }}.${{github.run_number}}
-          docker push {{ env.REGISTRY }}/{{ env.DOCKER_NAME }}/{{ env.PROJECT_NAME }}:${{ env.IMAGE_TAG }}.${{github.run_number}}
+          docker login --username=8720826 --password=${{ secrets.DOCKER_PASSWORD }} docker.io
+          docker build . --file ./Dockerfile --tag docker.io/8720826/linkbox:${{ env.IMAGE_TAG }}.${{github.run_number}}
+          docker push docker.io/8720826/linkbox:${{ env.IMAGE_TAG }}.${{github.run_number}}
       
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SERVER_HOST }}  
-          username: ${{ secrets.SERVER_USERNAME }} 
-          password: ${{ secrets.SERVER_PASSWORD }} 
-          port: ${{ secrets.SERVER_PORT }} 
+          host: ${{ secrets.SERVER_HOST }}    # 服务器ip地址 ; 
+          username: ${{ secrets.SERVER_USERNAME }} # 服务器用户名称；
+          password: ${{ secrets.SERVER_PASSWORD }}  # 服务器密码；
+          port: ${{ secrets.SERVER_PORT }}  # 服务器端口，默认22；
           script: |
-            docker login --username={{ env.DOCKER_NAME }} --password=${{ secrets.DOCKER_PASSWORD }} {{ env.REGISTRY }}
-            if docker ps -a | grep -q {{ env.PROJECT_NAME }}; then
-                docker stop {{ env.PROJECT_NAME }}
-                docker rm {{ env.PROJECT_NAME }}
+            docker login --username=8720826 --password=${{ secrets.DOCKER_PASSWORD }} docker.io
+            if docker ps -a | grep -q linkbox; then
+                docker stop linkbox
+                docker rm linkbox
             fi
-            docker run --name {{ env.PROJECT_NAME }} -d  -p {{ env.PORT }}:80 {{ env.REGISTRY }}/{{ env.DOCKER_NAME }}/{{ env.PROJECT_NAME }}:${{ env.IMAGE_TAG }}.${{github.run_number}}
+            docker run --name homepage -d -p 8081:80 docker.io/8720826/linkbox:${{ env.IMAGE_TAG }}.${{github.run_number}}
