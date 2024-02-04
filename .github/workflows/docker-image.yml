@@ -46,4 +46,4 @@ jobs:
                 docker stop linkbox
                 docker rm linkbox
             fi
-            docker run --name homepage -d -p 8081:80 docker.io/8720826/linkbox:${{ env.IMAGE_TAG }}.${{github.run_number}}
+            docker run --name linkbox -d -p 8081:80 docker.io/8720826/linkbox:${{ env.IMAGE_TAG }}.${{github.run_number}}
