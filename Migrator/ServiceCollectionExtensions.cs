@@ -18,7 +18,7 @@ namespace LinkBox.Migrator
                 .ConfigureRunner(rb => rb
                     .AddSQLite()
                     // Set the connection string
-                    .WithGlobalConnectionString($"Data Source = linkbox.db")
+                    .WithGlobalConnectionString($"Data Source = {path}")
                     // Define the assembly containing the migrations
                     .ScanIn(typeof(InitTables).Assembly).For.Migrations())
                 // Enable logging to console in the FluentMigrator way

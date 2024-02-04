@@ -25,7 +25,7 @@ namespace LinkBox.Contexts
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var dbPath = Path.Combine(Directory.GetCurrentDirectory(), "data", "linkbox.db");
-            optionsBuilder.UseSqlite($"Data Source = linkbox.db");
+            optionsBuilder.UseSqlite($"Data Source = {dbPath}");
         }
 
 
