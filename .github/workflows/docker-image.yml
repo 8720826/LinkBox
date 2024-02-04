@@ -23,7 +23,7 @@ jobs:
     steps:
       # 将远程仓库中的源代码领取到workfile自动化构建脚本运行的服务器
       - name: Checkout repository
-        uses: actions/checkout@v3 
+        uses: actions/checkout@v4 
 
 
       - name: Build the Docker image
