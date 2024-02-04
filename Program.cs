@@ -20,10 +20,7 @@ namespace LinkBox
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddRazorPages(x => { 
-             
-            });
-
+            builder.Services.AddRazorPages();
 
             builder.Services.Configure<RouteOptions>(option =>
             {
@@ -67,11 +64,8 @@ namespace LinkBox
                 endpoints.MapTemplate("/");
             });
 
-
-            app.MapHealthChecks("/health");
-
             app.MapRazorPages();
-         
+            app.MapHealthChecks("/health");
             app.Run();
         }
     }
