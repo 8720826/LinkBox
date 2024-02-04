@@ -29,7 +29,7 @@ jobs:
       - name: Build the Docker image
         run: |
           docker version
-          docker login --username=8720826 --password=${{ secrets.DOCKER_PASSWORD }} docker.io
+          docker login --username=8720826@qq.com --password=${{ secrets.DOCKER_PASSWORD }} docker.io
           docker build . --file ./Dockerfile --tag docker.io/8720826/linkbox:${{ env.IMAGE_TAG }}.${{github.run_number}}
           docker push docker.io/8720826/linkbox:${{ env.IMAGE_TAG }}.${{github.run_number}}
       
