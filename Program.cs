@@ -20,7 +20,9 @@ namespace LinkBox
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddRazorPages();
+            builder.Services.AddRazorPages(x => { 
+             
+            });
 
 
             builder.Services.Configure<RouteOptions>(option =>
@@ -43,13 +45,8 @@ namespace LinkBox
             builder.Services.AddDbContext<LinkboxDbContext>();
             builder.Services.AddMigrate(dbPath);
 
-            builder.Services.Configure<WebEncoderOptions>(options => options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All));
 
             var app = builder.Build();
-
-
-
-
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -68,13 +65,13 @@ namespace LinkBox
             app.UseAuthorization();
             app.UseEndpoints(endpoints => {
                 endpoints.MapTemplate("/");
-            }); 
+            });
 
 
-        
+            app.MapHealthChecks("/health");
 
             app.MapRazorPages();
-            app.MapHealthChecks("/health");
+         
             app.Run();
         }
     }
