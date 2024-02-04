@@ -24,7 +24,7 @@ namespace LinkBox.Pages.Template
 
         public void OnGet()
         {
-            var path = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "Template/index.js");
+            var path = Path.Combine(_hostEnvironment.ContentRootPath, "data", "template/index.js");
             Template.Js = System.IO.File.ReadAllText(path, System.Text.Encoding.UTF8);
         }
 
@@ -37,7 +37,7 @@ namespace LinkBox.Pages.Template
                 return Page();
             }
 
-            var path = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "Template/index.js");
+            var path = Path.Combine(_hostEnvironment.ContentRootPath, "data", "template/index.js");
             System.IO.File.WriteAllText(path, Template.Js);
 
             Message = "更新成功！";

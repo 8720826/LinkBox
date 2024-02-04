@@ -24,6 +24,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="data\template\index.css" />
+    <Content Include="data\template\index.html" />
+    <Content Include="data\template\index.js" />
+    <Content Include="data\template\LinkBox.css" />
+    <Content Include="data\template\LinkBox.html" />
+    <Content Include="data\template\LinkBox.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentMigrator" Version="5.0.0" />
     <PackageReference Include="FluentMigrator.Runner.SQLite" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.1" />

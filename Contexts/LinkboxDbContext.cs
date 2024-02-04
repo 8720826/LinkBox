@@ -22,7 +22,7 @@ namespace LinkBox.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source = linkbox.db");
+            optionsBuilder.UseSqlite("Data Source = data/linkbox.db");
         }
 
 

@@ -22,7 +22,7 @@ namespace LinkBox.Pages.Template
 
         public void OnGet()
         {
-            var path = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "Template/index.css");
+            var path = Path.Combine(_hostEnvironment.ContentRootPath, "data", "template/index.css");
             Template.Css = System.IO.File.ReadAllText(path, System.Text.Encoding.UTF8);
         }
 
@@ -35,7 +35,7 @@ namespace LinkBox.Pages.Template
                 return Page();
             }
 
-            var path = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "Template/index.css");
+            var path = Path.Combine(_hostEnvironment.ContentRootPath, "data", "template/index.css");
             System.IO.File.WriteAllText(path, Template.Css);
 
             Message = "更新成功！";

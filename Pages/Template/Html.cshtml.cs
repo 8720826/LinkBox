@@ -24,7 +24,7 @@ namespace LinkBox.Pages.Template
 
         public void OnGet()
         {
-            var path = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "Template/index.html");
+            var path = Path.Combine(_hostEnvironment.ContentRootPath, "data", "template/index.html");
             Template.Html = System.IO.File.ReadAllText(path, System.Text.Encoding.UTF8);
         }
 
@@ -33,11 +33,11 @@ namespace LinkBox.Pages.Template
             Message = "自定义模板";
             if (action == "reset")
             {
-                var defaultpath = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "Template/LinkBox.html");
+                var defaultpath = Path.Combine(_hostEnvironment.ContentRootPath, "data", "template/LinkBox.html");
                 Template.Html = System.IO.File.ReadAllText(defaultpath, System.Text.Encoding.UTF8);
 
 
-                var newpath = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "Template/index.html");
+                var newpath = Path.Combine(_hostEnvironment.ContentRootPath, "data", "template/index.html");
                 System.IO.File.WriteAllText(newpath, Template.Html);
                 Message = "重置成功！";
                 return Page();
@@ -59,7 +59,7 @@ namespace LinkBox.Pages.Template
                     return Page();
                 }
 
-                var path = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "Template/index.html");
+                var path = Path.Combine(_hostEnvironment.ContentRootPath, "data", "template/index.html");
                 System.IO.File.WriteAllText(path, Template.Html);
 
                 Message = "更新成功！";
