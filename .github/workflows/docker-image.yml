@@ -46,4 +46,4 @@ jobs:
                 docker stop linkbox
                 docker rm linkbox
             fi
-            docker run -d -p 50083:8080 --name linkbox --privileged -u root -e LANG=en_US.UTF-8 --restart=always -e TZ=Asia/Shanghai -d docker.io/8720826/linkbox:${{ env.IMAGE_TAG }}.${{github.run_number}}
+            docker run -d -p 50083:8080 --name linkbox --privileged -u root -e LANG=en_US.UTF-8 --restart=always -e TZ=Asia/Shanghai -v /etc/linkbox:/data -d docker.io/8720826/linkbox:${{ env.IMAGE_TAG }}.${{github.run_number}}

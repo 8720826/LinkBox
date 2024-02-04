@@ -1,5 +1,6 @@
 ﻿using LinkBox.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using System.Linq.Expressions;
 
 namespace LinkBox.Contexts
@@ -15,6 +16,7 @@ namespace LinkBox.Contexts
 
 		public DbSet<ConfigEntity> Configs { get; set; }
 
+
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
            
@@ -22,7 +24,8 @@ namespace LinkBox.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source = data/linkbox.db");
+            var dbPath = Path.Combine(Directory.GetCurrentDirectory(), "data", "linkbox.db");
+            optionsBuilder.UseSqlite($"Data Source = {dbPath}");
         }
 
 

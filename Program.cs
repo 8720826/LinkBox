@@ -3,6 +3,8 @@ using LinkBox.Contexts;
 using LinkBox.Migrator;
 using LinkBox.Template;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.Extensions.WebEncoders;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
@@ -36,8 +38,10 @@ namespace LinkBox
             //builder.Services.AutoRegister();
             builder.Services.AddHealthChecks();
             //builder.Services.ConfigureModelBindingExceptionHandling();
+
+            var dbPath = Path.Combine(Directory.GetCurrentDirectory(), "data", "linkbox.db");
             builder.Services.AddDbContext<LinkboxDbContext>();
-            builder.Services.AddMigrate();
+            builder.Services.AddMigrate(dbPath);
 
             builder.Services.Configure<WebEncoderOptions>(options => options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All));
 

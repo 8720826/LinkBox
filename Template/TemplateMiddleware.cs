@@ -31,14 +31,9 @@ namespace LinkBox.Template
 
             var result = TemplateProvider.Compile(html);
 
-           
-
-            Console.WriteLine($"time = {stopwatch.ElapsedMilliseconds}");
-
             context.Response.ContentType = "text/html;charset=utf-8";
             await context.Response.WriteAsync(result, System.Text.Encoding.UTF8);
 
-            Console.WriteLine($"time = {stopwatch.ElapsedMilliseconds}");
             stopwatch.Stop();
         }
 
