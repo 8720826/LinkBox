@@ -4,8 +4,10 @@ using LinkBox.Migrator;
 using LinkBox.Template;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.WebEncoders;
+using System.IO;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
@@ -61,9 +63,13 @@ namespace LinkBox
             app.UseRouting();
             app.UseAuthorization();
 
-
-            app.UseEndpoints(endpoints => {
-                endpoints.MapTemplate("/");
+            app.MapGet("/", (HttpContext context) =>
+            {
+                var path = Path.Combine(app.Environment.ContentRootPath, "data", "template/index.html");
+                var html = File.ReadAllText(path, System.Text.Encoding.UTF8);
+                var result = TemplateProvider.Compile(html);
+                context.Response.ContentType = "text/html;charset=utf-8";
+                return result;
             });
 
             app.MapRazorPages();
