@@ -41,7 +41,7 @@ namespace LinkBox
             var dbPath = Path.Combine(Directory.GetCurrentDirectory(), "data", "linkbox.db");
             builder.Services.AddDbContext<LinkboxDbContext>();
             builder.Services.AddMigrate(dbPath);
-
+            builder.Services.AddTemplate();
 
             var app = builder.Build();
 

@@ -11,10 +11,10 @@ namespace LinkBox.Pages.Template
     [UserAuthorize]
     public class HtmlModel : PageModel
     {
-        public readonly IHostEnvironment _hostEnvironment;
-        public HtmlModel(IHostEnvironment hostEnvironment)
+        private readonly ITemplateService _templateService;
+        public HtmlModel(ITemplateService templateService)
         {
-            _hostEnvironment = hostEnvironment;
+            _templateService = templateService;
         }
 
         [BindProperty]
@@ -24,8 +24,7 @@ namespace LinkBox.Pages.Template
 
         public void OnGet()
         {
-            var path = Path.Combine(_hostEnvironment.ContentRootPath, "data", "template/index.html");
-            Template.Html = System.IO.File.ReadAllText(path, System.Text.Encoding.UTF8);
+            Template.Html = _templateService.Read("index.html");
         }
 
         public async Task<IActionResult> OnPost(string action)
@@ -33,12 +32,9 @@ namespace LinkBox.Pages.Template
             Message = "自定义模板";
             if (action == "reset")
             {
-                var defaultpath = Path.Combine(_hostEnvironment.ContentRootPath, "data", "template/LinkBox.html");
-                Template.Html = System.IO.File.ReadAllText(defaultpath, System.Text.Encoding.UTF8);
 
+                Template.Html = _templateService.Reset("index.html");
 
-                var newpath = Path.Combine(_hostEnvironment.ContentRootPath, "data", "template/index.html");
-                System.IO.File.WriteAllText(newpath, Template.Html);
                 Message = "重置成功！";
                 return Page();
             }
@@ -59,8 +55,7 @@ namespace LinkBox.Pages.Template
                     return Page();
                 }
 
-                var path = Path.Combine(_hostEnvironment.ContentRootPath, "data", "template/index.html");
-                System.IO.File.WriteAllText(path, Template.Html);
+                _templateService.Update("index.html", Template.Html);
 
                 Message = "更新成功！";
                 return Page();

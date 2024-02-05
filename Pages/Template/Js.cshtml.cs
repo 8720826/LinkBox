@@ -1,6 +1,7 @@
 using LinkBox.Authorizations;
 using LinkBox.Models;
 using LinkBox.Models.Template;
+using LinkBox.Template;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -9,10 +10,10 @@ namespace LinkBox.Pages.Template
     [UserAuthorize]
     public class JsModel : PageModel
     {
-        public readonly IHostEnvironment _hostEnvironment;
-        public JsModel(IHostEnvironment hostEnvironment)
+        private readonly ITemplateService _templateService;
+        public JsModel(ITemplateService templateService)
         {
-            _hostEnvironment = hostEnvironment;
+            _templateService = templateService;
         }
 
         [BindProperty]
@@ -24,8 +25,7 @@ namespace LinkBox.Pages.Template
 
         public void OnGet()
         {
-            var path = Path.Combine(_hostEnvironment.ContentRootPath, "data", "template/index.js");
-            Template.Js = System.IO.File.ReadAllText(path, System.Text.Encoding.UTF8);
+            Template.Js = _templateService.Read("index.js");
         }
 
         public async Task<IActionResult> OnPost()
@@ -37,8 +37,7 @@ namespace LinkBox.Pages.Template
                 return Page();
             }
 
-            var path = Path.Combine(_hostEnvironment.ContentRootPath, "data", "template/index.js");
-            System.IO.File.WriteAllText(path, Template.Js);
+            _templateService.Update("index.js", Template.Js);
 
             Message = "更新成功！";
 

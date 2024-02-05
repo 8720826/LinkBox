@@ -1,5 +1,6 @@
 ﻿using FluentMigrator.Runner;
 using LinkBox.Migrator.Migrations;
+using LinkBox.Template;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -35,5 +36,24 @@ namespace LinkBox.Migrator
             }
             return services;
         }
+
+        public static IServiceCollection AddTemplate(this IServiceCollection services)
+        {
+
+            var serviceProvider = services.AddLogging().BuildServiceProvider(false);
+
+            using (var scope = serviceProvider.CreateScope())
+            {
+
+                var service = serviceProvider.GetRequiredService<ITemplateService>();
+
+                service.Reset("index.html");
+                service.Reset("index.js");
+                service.Reset("index.css");
+
+            }
+            return services;
+        }
+
     }
 }

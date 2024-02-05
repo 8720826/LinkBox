@@ -1,6 +1,7 @@
 using LinkBox.Authorizations;
 using LinkBox.Models;
 using LinkBox.Models.Template;
+using LinkBox.Template;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -9,10 +10,10 @@ namespace LinkBox.Pages.Template
     [UserAuthorize]
     public class CssModel : PageModel
     {
-        public readonly IHostEnvironment _hostEnvironment;
-        public CssModel(IHostEnvironment hostEnvironment)
+        private readonly ITemplateService _templateService;
+        public CssModel(ITemplateService templateService)
         {
-            _hostEnvironment = hostEnvironment;
+            _templateService = templateService;
         }
 
         [BindProperty]
@@ -22,8 +23,7 @@ namespace LinkBox.Pages.Template
 
         public void OnGet()
         {
-            var path = Path.Combine(_hostEnvironment.ContentRootPath, "data", "template/index.css");
-            Template.Css = System.IO.File.ReadAllText(path, System.Text.Encoding.UTF8);
+            Template.Css = _templateService.Read("index.css");
         }
 
         public async Task<IActionResult> OnPost()
@@ -35,8 +35,7 @@ namespace LinkBox.Pages.Template
                 return Page();
             }
 
-            var path = Path.Combine(_hostEnvironment.ContentRootPath, "data", "template/index.css");
-            System.IO.File.WriteAllText(path, Template.Css);
+            _templateService.Update("index.css", Template.Css);
 
             Message = "更新成功！";
 

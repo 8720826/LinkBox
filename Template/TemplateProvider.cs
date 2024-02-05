@@ -52,9 +52,6 @@ namespace LinkBox.Template
 
             return result;
         }
+
     }
-
-
-
-
 }
