@@ -43,7 +43,6 @@ namespace LinkBox
             builder.Services.AddDbContext<LinkboxDbContext>();
             builder.Services.AddMigrate(dbPath);
             builder.Services.AddTemplate();
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -61,7 +60,6 @@ namespace LinkBox
            
             app.UseRouting();
             app.UseAuthorization();
-
 
 
             app.UseEndpoints(endpoints => {
