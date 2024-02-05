@@ -10,6 +10,10 @@ namespace LinkBox.Template
         public  List<CategoryModel> BookmarkCategories { get; set; } = new List<CategoryModel>();
 
         public ConfigModel Config { get; set; } = new ConfigModel();
+
+        public string Css { get; set; } = "";
+
+        public string Js { get; set; } = "";
     }
 
     public class CategoryModel
@@ -41,7 +45,8 @@ namespace LinkBox.Template
     {
         public string Name { get; set; } = "";
 
-
         public string Title { get; set; } = "";
     }
+
+
 }

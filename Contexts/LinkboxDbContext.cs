@@ -8,8 +8,6 @@ namespace LinkBox.Contexts
     public class LinkboxDbContext : DbContext
     {
 
-        public DbSet<UserEntity> Users { get; set; }
-
         public DbSet<LinkEntity> Links { get; set; }
 
 		public DbSet<CategoryEntity> Categories { get; set; }

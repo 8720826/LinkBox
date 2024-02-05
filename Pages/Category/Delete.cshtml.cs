@@ -1,10 +1,9 @@
 using LinkBox.Authorizations;
 using LinkBox.Contexts;
-using LinkBox.Entities;
 using LinkBox.Models;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 
 namespace LinkBox.Pages.Category
 {
@@ -12,7 +11,7 @@ namespace LinkBox.Pages.Category
     public class DeleteModel : PageModel
     {
       
-        public CategoryEntity Category { get; set; } = default!;
+        public DeleteCategoryDto Category { get; set; } = default!;
 
 
         private readonly LinkboxDbContext _db;
@@ -25,11 +24,13 @@ namespace LinkBox.Pages.Category
 
         public IActionResult OnGet(int id)
         {
-            Category = _db.Categories.Find(id);
-            if (Category == null)
+            var category = _db.Categories.Find(id);
+            if (category == null)
             {
                 return RedirectToPage("Index");
             }
+
+            Category = category.Adapt<DeleteCategoryDto>();
 
             return Page();
         }
@@ -37,8 +38,8 @@ namespace LinkBox.Pages.Category
 
         public  IActionResult OnPost(int id)
         {
-            Category = _db.Categories.Find(id);
-            if (Category == null)
+            var category = _db.Categories.Find(id);
+            if (category == null)
             {
                 return RedirectToPage("Index");
             }
@@ -50,8 +51,7 @@ namespace LinkBox.Pages.Category
                 return Page();
             }
 
-
-            _db.Categories.Remove(Category);
+            _db.Categories.Remove(category);
             _db.SaveChanges();
             LinkBoxData.Refresh(true);
 

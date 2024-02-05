@@ -22,7 +22,21 @@ namespace LinkBox
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddRazorPages();
+            builder.Services.AddRazorPages().AddMvcOptions(options =>
+            {
+                options.MaxModelValidationErrors = 50;
+                options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(x => "请输入内容");
+                options.ModelBindingMessageProvider.SetValueIsInvalidAccessor(x => $"输入值'{x}'无效");
+                options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor((x, y) => $"输入值'{x}'无效");
+                options.ModelBindingMessageProvider.SetValueMustBeANumberAccessor((x) => "只能输入数字");
+                options.ModelBindingMessageProvider.SetMissingBindRequiredValueAccessor((x) => $"缺少属性 '{x}'");
+                options.ModelBindingMessageProvider.SetMissingKeyOrValueAccessor(() => "请输入内容");
+                options.ModelBindingMessageProvider.SetUnknownValueIsInvalidAccessor((x) => "输入值无效");
+                options.ModelBindingMessageProvider.SetMissingRequestBodyRequiredValueAccessor(() => "RequestBody 不能为空");
+                options.ModelBindingMessageProvider.SetNonPropertyValueMustBeANumberAccessor(() => "只能输入数字");
+                options.ModelBindingMessageProvider.SetNonPropertyAttemptedValueIsInvalidAccessor((x) => $"输入值'{x}'无效");
+                options.ModelBindingMessageProvider.SetNonPropertyUnknownValueIsInvalidAccessor(() => "输入值无效");
+            });
 
             builder.Services.Configure<RouteOptions>(option =>
             {
@@ -36,15 +50,13 @@ namespace LinkBox
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 			builder.Services.AddScoped<IMigratorService, MigratorService>();
             builder.Services.AddScoped<IJwtProvider, JwtProvider>();
-            builder.Services.AddScoped<ITemplateService, TemplateService>();
             //builder.Services.AutoRegister();
             builder.Services.AddHealthChecks();
             //builder.Services.ConfigureModelBindingExceptionHandling();
-
-            var dbPath = Path.Combine(Directory.GetCurrentDirectory(), "data", "linkbox.db");
+            var dir = Directory.GetCurrentDirectory();
             builder.Services.AddDbContext<LinkboxDbContext>();
-            builder.Services.AddMigrate(dbPath);
-            builder.Services.AddTemplate();
+            builder.Services.AddMigrate(dir);
+            builder.Services.AddTemplate(dir);
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -67,7 +79,7 @@ namespace LinkBox
             {
                 var path = Path.Combine(app.Environment.ContentRootPath, "data", "template/index.html");
                 var html = File.ReadAllText(path, System.Text.Encoding.UTF8);
-                var result = TemplateProvider.Compile(html);
+                var result = TemplateProvider.Compile(app.Environment.ContentRootPath, html);
                 context.Response.ContentType = "text/html;charset=utf-8";
                 return result;
             });

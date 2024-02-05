@@ -56,7 +56,7 @@ namespace LinkBox.Pages.Link
             return System.Text.Encoding.Unicode.GetString(bytes);
         }
 
-        public async Task<IActionResult> OnPost()
+        public IActionResult OnPost()
         {
 
             if (BookmarkFile == null)

@@ -2,6 +2,7 @@ using LinkBox.Authorizations;
 using LinkBox.Contexts;
 using LinkBox.Entities;
 using LinkBox.Models;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -10,7 +11,7 @@ namespace LinkBox.Pages.Link
     [UserAuthorize]
     public class DeleteModel : PageModel
     {
-        public LinkEntity Link { get; set; } = default!;
+        public DeleteLinkDto Link { get; set; } = default!;
 
 
         private readonly LinkboxDbContext _db;
@@ -23,11 +24,12 @@ namespace LinkBox.Pages.Link
 
         public IActionResult OnGet(int id)
         {
-            Link = _db.Links.Find(id);
-            if (Link == null)
+            var link = _db.Links.Find(id);
+            if (link == null)
             {
                 return RedirectToPage("Index");
             }
+            Link = link.Adapt<DeleteLinkDto>();
 
             return Page();
         }
@@ -35,14 +37,13 @@ namespace LinkBox.Pages.Link
 
         public IActionResult OnPost(int id)
         {
-            Link = _db.Links.Find(id);
-            if (Link == null)
+            var link = _db.Links.Find(id);
+            if (link == null)
             {
                 return RedirectToPage("Index");
             }
 
-
-            _db.Links.Remove(Link);
+            _db.Links.Remove(link);
             _db.SaveChanges();
             LinkBoxData.Refresh(true);
 

@@ -1,8 +1,6 @@
 using LinkBox.Authorizations;
-using LinkBox.Models.Template;
 using LinkBox.Template;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Hosting;
 
@@ -11,29 +9,29 @@ namespace LinkBox.Pages.Template
     [UserAuthorize]
     public class HtmlModel : PageModel
     {
-        private readonly ITemplateService _templateService;
-        public HtmlModel(ITemplateService templateService)
+        public readonly IHostEnvironment _hostEnvironment;
+        public HtmlModel(IHostEnvironment hostEnvironment)
         {
-            _templateService = templateService;
+            _hostEnvironment = hostEnvironment;
         }
 
         [BindProperty]
-        public ModifyTemplateModel Template { get; set; } = new ModifyTemplateModel();
+        public EditHtmlDto Template { get; set; } = new EditHtmlDto();
 
         public string Message { get; set; } = "自定义模板";
 
         public void OnGet()
         {
-            Template.Html = _templateService.Read("index.html");
+            Template.Content = TemplateProvider.Read(_hostEnvironment.ContentRootPath, "index.html");
         }
 
-        public async Task<IActionResult> OnPost(string action)
+        public IActionResult OnPost(string action)
         {
             Message = "自定义模板";
             if (action == "reset")
             {
 
-                Template.Html = _templateService.Reset("index.html");
+                Template.Content = TemplateProvider.Reset(_hostEnvironment.ContentRootPath, "index.html");
 
                 Message = "重置成功！";
                 return Page();
@@ -47,7 +45,7 @@ namespace LinkBox.Pages.Template
 
                 try
                 {
-                    var result = TemplateProvider.Compile(Template.Html);
+                    var result = TemplateProvider.Compile(_hostEnvironment.ContentRootPath, Template.Content);
                 }
                 catch (Exception ex)
                 {
@@ -55,7 +53,7 @@ namespace LinkBox.Pages.Template
                     return Page();
                 }
 
-                _templateService.Update("index.html", Template.Html);
+                TemplateProvider.Update(_hostEnvironment.ContentRootPath, "index.html", Template.Content);
 
                 Message = "更新成功！";
                 return Page();

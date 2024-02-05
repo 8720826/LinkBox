@@ -12,14 +12,15 @@ namespace LinkBox.Migrator
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddMigrate(this IServiceCollection services,string path)
+        public static IServiceCollection AddMigrate(this IServiceCollection services, string dir)
         {
+            var dbPath = Path.Combine(dir, "data", "linkbox.db");
 
             var serviceProvider = services.AddFluentMigratorCore()
                 .ConfigureRunner(rb => rb
                     .AddSQLite()
                     // Set the connection string
-                    .WithGlobalConnectionString($"Data Source = {path}")
+                    .WithGlobalConnectionString($"Data Source = {dbPath}")
                     // Define the assembly containing the migrations
                     .ScanIn(typeof(InitTables).Assembly).For.Migrations())
                 // Enable logging to console in the FluentMigrator way
@@ -37,21 +38,12 @@ namespace LinkBox.Migrator
             return services;
         }
 
-        public static IServiceCollection AddTemplate(this IServiceCollection services)
+        public static IServiceCollection AddTemplate(this IServiceCollection services, string dir)
         {
+            TemplateProvider.Reset(dir, "index.html");
+            TemplateProvider.Reset(dir, "index.js");
+            TemplateProvider.Reset(dir, "index.css");
 
-            var serviceProvider = services.AddLogging().BuildServiceProvider(false);
-
-            using (var scope = serviceProvider.CreateScope())
-            {
-
-                var service = serviceProvider.GetRequiredService<ITemplateService>();
-
-                service.Reset("index.html");
-                service.Reset("index.js");
-                service.Reset("index.css");
-
-            }
             return services;
         }
 

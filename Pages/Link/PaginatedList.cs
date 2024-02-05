@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace LinkBox.Models
+namespace LinkBox.Pages.Link
 {
     public class PaginatedList<T> : List<T>
     {
@@ -12,7 +12,7 @@ namespace LinkBox.Models
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
 
-            this.AddRange(items);
+            AddRange(items);
         }
 
         public bool HasPreviousPage => PageIndex > 1;
@@ -22,8 +22,8 @@ namespace LinkBox.Models
         public static PaginatedList<T> Create(
             IQueryable<T> source, int pageIndex, int pageSize)
         {
-            var count =  source.Count();
-            var items =  source.Skip(
+            var count = source.Count();
+            var items = source.Skip(
                 (pageIndex - 1) * pageSize)
                 .Take(pageSize).ToList();
             return new PaginatedList<T>(items, count, pageIndex, pageSize);

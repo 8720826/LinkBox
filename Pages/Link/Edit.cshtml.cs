@@ -1,7 +1,9 @@
 using LinkBox.Authorizations;
 using LinkBox.Contexts;
 using LinkBox.Entities;
+using LinkBox.Extentions;
 using LinkBox.Models;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,7 +14,7 @@ namespace LinkBox.Pages.Link
     public class EditModel : PageModel
     {
         [BindProperty]
-        public LinkEntity Link { get; set; } = default!;
+        public EditLinkDto Link { get; set; } = default!;
 
         public SelectList Categories { get; set; }
 
@@ -28,11 +30,13 @@ namespace LinkBox.Pages.Link
         public IActionResult OnGet(int id)
         {
             Init();
-            Link = _db.Links.Find(id);
-            if (Link == null)
+            var link = _db.Links.Find(id);
+            if (link == null)
             {
                 return RedirectToPage("Index");
             }
+
+            Link = link.Adapt<EditLinkDto>();
 
             return Page();
         }
@@ -44,7 +48,7 @@ namespace LinkBox.Pages.Link
             Categories = new SelectList(categories, "Id", "Name");
         }
 
-        public async Task<IActionResult> OnPost(int id)
+        public async Task<IActionResult> OnPost()
         {
             if (!ModelState.IsValid)
             {
@@ -52,8 +56,12 @@ namespace LinkBox.Pages.Link
                 return Page();
             }
 
+            var link = Link.Adapt<LinkEntity>();
+            link.Icon = link.Icon.CheckIsNullOrEmpty();
+            link.Description = link.Description.CheckIsNullOrEmpty();
 
-            _db.Links.Update(Link);
+
+            _db.Links.Update(link);
             await _db.SaveChangesAsync();
 
             LinkBoxData.Refresh(true);

@@ -1,6 +1,5 @@
 ﻿using FluentMigrator;
 using LinkBox.Entities.Enums;
-using LinkBox.Extentions;
 
 namespace LinkBox.Migrator.Migrations
 {

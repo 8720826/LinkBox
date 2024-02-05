@@ -3,6 +3,8 @@ using LinkBox.Contexts;
 using LinkBox.Entities;
 using LinkBox.Entities.Enums;
 using LinkBox.Models;
+using LinkBox.Pages.Link;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,9 +15,9 @@ namespace LinkBox.Pages.Category
     public class EditModel : PageModel
     {
         [BindProperty]
-        public CategoryEntity Category { get; set; }
+        public EditCategoryDto Category { get; set; } = default!;
 
-        public SelectList CategoryTypes { get; set; }
+        public SelectList CategoryTypes { get; set; } = default!;
 
 
         private readonly LinkboxDbContext _db;
@@ -29,18 +31,20 @@ namespace LinkBox.Pages.Category
         public IActionResult OnGet(int id)
         {
             Init();
-            Category = _db.Categories.Find(id);
-            if (Category == null)
+            var category = _db.Categories.Find(id);
+            if (category == null)
             {
                 return RedirectToPage("Index");
             }
+
+            Category = category.Adapt<EditCategoryDto>();
 
             return Page();
         }
 
         private void Init()
         {
-            CategoryTypes = new SelectList(new List<string> { CategoryTypeEnum.应用.ToString(), CategoryTypeEnum.书签.ToString() });
+            CategoryTypes = new SelectList(CategoryConfig.AllTypes);
         }
 
         public async Task<IActionResult> OnPost()
@@ -51,7 +55,9 @@ namespace LinkBox.Pages.Category
                 return Page();
             }
 
-            _db.Categories.Update(Category);
+            var category = Category.Adapt<CategoryEntity>();
+
+            _db.Categories.Update(category);
             await _db.SaveChangesAsync();
             LinkBoxData.Refresh(true);
 

@@ -1,12 +1,11 @@
 using LinkBox.Authorizations;
 using LinkBox.Contexts;
 using LinkBox.Entities;
-using LinkBox.Entities.Enums;
 using LinkBox.Models;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace LinkBox.Pages.Category
 {
@@ -14,9 +13,9 @@ namespace LinkBox.Pages.Category
     public class AddModel : PageModel
     {
         [BindProperty]
-        public CategoryEntity Category { get; set; } = default!;
+        public AddCategoryDto Category { get; set; } = default!;
 
-        public SelectList CategoryTypes { get; set; }
+        public SelectList CategoryTypes { get; set; } = default!;
 
 
 
@@ -34,7 +33,7 @@ namespace LinkBox.Pages.Category
 
         private void Init()
         {
-            CategoryTypes = new SelectList(new List<string> { CategoryTypeEnum.应用.ToString(), CategoryTypeEnum.书签.ToString() });
+            CategoryTypes = new SelectList(CategoryConfig.AllTypes);
         }
 
         public async Task<IActionResult> OnPost()
@@ -45,7 +44,11 @@ namespace LinkBox.Pages.Category
                 return Page();
             }
 
-            _db.Categories.Add(Category);
+            var category = Category.Adapt<CategoryEntity>();
+
+
+
+            _db.Categories.Add(category);
             await _db.SaveChangesAsync();
             LinkBoxData.Refresh(true);
 

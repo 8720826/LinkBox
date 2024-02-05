@@ -1,7 +1,4 @@
 using LinkBox.Authorizations;
-using LinkBox.Contexts;
-using LinkBox.Extentions;
-using LinkBox.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -19,7 +16,7 @@ namespace LinkBox.Pages.User
         }
 
         [BindProperty]
-        public UserModel User { get; set; }
+        public LoginInput Login { get; set; }
 
         public void OnGet()
         {
@@ -41,7 +38,13 @@ namespace LinkBox.Pages.User
                 return Page();
             }
 
-            if (password != User.Password)
+            if (string.IsNullOrEmpty(Login.Password))
+            {
+                ModelState.AddModelError("", "请输入密码！");
+                return Page();
+            }
+
+            if (password != Login.Password)
             {
                 ModelState.AddModelError("", "密码错误！");
                 return Page();

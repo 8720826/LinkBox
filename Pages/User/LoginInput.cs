@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LinkBox.Authorizations
+namespace LinkBox.Pages.User
 {
-    public class UserModel
+    public class LoginInput
     {
-
-
         [Display(Name = "密码")]
         public string Password { get; set; } = "";
     }

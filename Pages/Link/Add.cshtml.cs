@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using LinkBox.Models;
 using LinkBox.Authorizations;
+using Mapster;
+using LinkBox.Extentions;
 
 namespace LinkBox.Pages.Link
 {
@@ -13,7 +15,7 @@ namespace LinkBox.Pages.Link
     public class AddModel : PageModel
     {
         [BindProperty]
-        public LinkEntity Link { get; set; } = default!;
+        public AddLinkDto Link { get; set; } = default!;
 
         public SelectList Categories { get; set; }
 
@@ -46,7 +48,11 @@ namespace LinkBox.Pages.Link
                 return Page();
             }
 
-            _db.Links.Add(Link);
+            var link = Link.Adapt<LinkEntity>();
+            link.Icon = link.Icon.CheckIsNullOrEmpty();
+            link.Description = link.Description.CheckIsNullOrEmpty();
+
+            _db.Links.Add(link);
             await _db.SaveChangesAsync();
             LinkBoxData.Refresh(true);
 

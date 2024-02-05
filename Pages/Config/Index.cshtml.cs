@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using LinkBox.Authorizations;
+using LinkBox.Pages.Link;
+using Mapster;
 
 namespace LinkBox.Pages.Config
 {
@@ -13,13 +15,10 @@ namespace LinkBox.Pages.Config
     public class IndexModel : PageModel
     {
         [BindProperty]
-        public ConfigEntity Config { get; set; }
-
-
+        public EditConfigDto Config { get; set; } = default!;
 
 
         private readonly LinkboxDbContext _db;
-
         public IndexModel(LinkboxDbContext db)
         {
             _db = db;
@@ -28,11 +27,15 @@ namespace LinkBox.Pages.Config
 
         public IActionResult OnGet()
         {
-            Config = _db.Configs.FirstOrDefault();
-            if (Config == null)
+            var config = _db.Configs.FirstOrDefault();
+            if (config == null)
             {
-                Config = new ConfigEntity() { Id = 0 };
+                config = new ConfigEntity() { Id = 0 };
+                _db.Configs.Add(config);
+                _db.SaveChanges();
             }
+
+            Config = config.Adapt<EditConfigDto>();
 
             return Page();
         }
@@ -46,15 +49,10 @@ namespace LinkBox.Pages.Config
                 return Page();
             }
 
-            if (Config.Id == 0)
-            {
-                _db.Configs.Add(Config);
-            }
-            else
-            {
-                _db.Configs.Update(Config);
-            }
+            var config = Config.Adapt<ConfigEntity>();
+            _db.Configs.Update(config);
             await _db.SaveChangesAsync();
+
             LinkBoxData.Refresh(true);
 
             return RedirectToPage("./Index");

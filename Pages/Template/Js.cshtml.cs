@@ -1,6 +1,4 @@
 using LinkBox.Authorizations;
-using LinkBox.Models;
-using LinkBox.Models.Template;
 using LinkBox.Template;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,14 +8,14 @@ namespace LinkBox.Pages.Template
     [UserAuthorize]
     public class JsModel : PageModel
     {
-        private readonly ITemplateService _templateService;
-        public JsModel(ITemplateService templateService)
+        public readonly IHostEnvironment _hostEnvironment;
+        public JsModel(IHostEnvironment hostEnvironment)
         {
-            _templateService = templateService;
+            _hostEnvironment = hostEnvironment;
         }
 
         [BindProperty]
-        public ModifyJsModel Template { get; set; } = new ModifyJsModel();
+        public EditJsDto Template { get; set; } = new EditJsDto();
 
 
         public string Message { get; set; } = "自定义脚本";
@@ -25,10 +23,10 @@ namespace LinkBox.Pages.Template
 
         public void OnGet()
         {
-            Template.Js = _templateService.Read("index.js");
+            Template.Content = TemplateProvider.Read(_hostEnvironment.ContentRootPath, "index.js");
         }
 
-        public async Task<IActionResult> OnPost()
+        public IActionResult OnPost()
         {
             Message = "自定义脚本";
 
@@ -37,7 +35,7 @@ namespace LinkBox.Pages.Template
                 return Page();
             }
 
-            _templateService.Update("index.js", Template.Js);
+            TemplateProvider.Update(_hostEnvironment.ContentRootPath, "index.js", Template.Content ?? "");
 
             Message = "更新成功！";
 

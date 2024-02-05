@@ -5,11 +5,15 @@ namespace LinkBox.Extentions
 {
     public static class StringExtentions
     {
-        public static string ToMd5(this string input)
+        public static string CheckIsNullOrEmpty(this string input)
         {
-            var inputBytes = Encoding.UTF8.GetBytes(input);
-            var hashBytes = MD5.HashData(inputBytes);
-            return Convert.ToHexString(hashBytes);
+            if (string.IsNullOrEmpty(input))
+            {
+                return "";
+            }
+            return input;
         }
+
+
     }
 }

@@ -1,12 +1,13 @@
 ﻿using LinkBox.Entities;
 using LinkBox.Models;
+using Microsoft.Extensions.Hosting;
 using RazorEngineCore;
 
 namespace LinkBox.Template
 {
     public class TemplateProvider
     {
-        public static string Compile(string html)
+        public static string Compile(string contentRootPath, string html)
         {
             LinkBoxData.Refresh();
             var appCategories = LinkBoxData.Categories.Where(x => x.Type == Entities.Enums.CategoryTypeEnum.应用).Select(x => new CategoryModel
@@ -45,6 +46,13 @@ namespace LinkBox.Template
 
             var model = new TemplateModel { AppCategories = appCategories, BookmarkCategories = bookmarkCategories, Config = config };
 
+            if (!string.IsNullOrEmpty(contentRootPath))
+            {
+                model.Css = Read(contentRootPath,"index.css");
+                model.Js = Read(contentRootPath, "index.js");
+            }
+           
+
             var razorEngine = new RazorEngine();
             var template = razorEngine.Compile(html);
 
@@ -54,6 +62,33 @@ namespace LinkBox.Template
         }
 
 
+        public static string Reset(string contentRootPath, string file)
+        {
+            var defaultpath = Path.Combine(contentRootPath, "wwwroot", "template", file);
+            var html = System.IO.File.ReadAllText(defaultpath, System.Text.Encoding.UTF8);
 
+            var dir = Path.Combine(contentRootPath, "data", "template");
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+
+            var newpath = Path.Combine(contentRootPath, "data", "template", file);
+            System.IO.File.WriteAllText(newpath, html);
+
+            return html;
+        }
+
+        public static void Update(string contentRootPath, string file, string content)
+        {
+            var newpath = Path.Combine(contentRootPath, "data", "template", file);
+            System.IO.File.WriteAllText(newpath, content);
+        }
+
+        public static string Read(string contentRootPath, string file)
+        {
+            var path = Path.Combine(contentRootPath, "data", "template", file);
+            return System.IO.File.ReadAllText(path, System.Text.Encoding.UTF8);
+        }
     }
 }
