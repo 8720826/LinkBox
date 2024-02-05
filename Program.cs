@@ -34,6 +34,7 @@ namespace LinkBox
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 			builder.Services.AddScoped<IMigratorService, MigratorService>();
             builder.Services.AddScoped<IJwtProvider, JwtProvider>();
+            builder.Services.AddScoped<ITemplateService, TemplateService>();
             //builder.Services.AutoRegister();
             builder.Services.AddHealthChecks();
             //builder.Services.ConfigureModelBindingExceptionHandling();
