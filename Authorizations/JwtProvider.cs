@@ -23,8 +23,7 @@ namespace LinkBox.Authorizations
                 var securityKeyBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(securityKey));
                 var claims = new[]
                 {
-                    new Claim("Name",user.Name),
-                    new Claim("Id",user.Id.ToString()),
+                    new Claim("Id",Guid.NewGuid().ToString()),
                 };
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKeyBase64));
                 var token = new JwtSecurityToken(

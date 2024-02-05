@@ -4,10 +4,6 @@ namespace LinkBox.Authorizations
 {
     public class UserModel
     {
-        public int Id { get; set; }
-
-        [Display(Name = "用户名")]
-        public string Name { get; set; } = "";
 
 
         [Display(Name = "密码")]

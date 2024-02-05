@@ -11,11 +11,11 @@ namespace LinkBox.Pages.User
 {
     public class LoginModel : PageModel
     {
-        private readonly LinkboxDbContext _db;
+        private readonly IConfiguration _configuration;
 
-        public LoginModel(LinkboxDbContext db)
+        public LoginModel(IConfiguration configuration)
         {
-            _db = db;
+            _configuration = configuration;
         }
 
         [BindProperty]
@@ -33,16 +33,11 @@ namespace LinkBox.Pages.User
                 return Page();
             }
 
-            var user = _db.Users.FirstOrDefault(x => x.Name == User.Name);
-            if (user == null)
-            {
-                ModelState.AddModelError("", "ÓÃ»§Ãû»òÃÜÂë´íÎó£¡");
-                return Page();
-            }
+            var password = _configuration["PASSWORD"]?.ToString() ?? "";
 
-            if (user.Password!= User.Password.ToMd5())
+            if (password != User.Password)
             {
-                ModelState.AddModelError("", "ÓÃ»§Ãû»òÃÜÂë´íÎó£¡");
+                ModelState.AddModelError("", "å¯†ç é”™è¯¯ï¼");
                 return Page();
             }
 
@@ -53,8 +48,7 @@ namespace LinkBox.Pages.User
             };
 
             var identity = new ClaimsIdentity(new ClaimsIdentity(UserAuthenticationHandler.CustomerSchemeName));
-            identity.AddClaim(new Claim("userid", User.Id.ToString()));
-            identity.AddClaim(new Claim("username", User.Name.ToString()));
+            identity.AddClaim(new Claim("userid", Guid.NewGuid().ToString()));
             var claimsPrincipal = new ClaimsPrincipal(identity);
             await HttpContext.SignInAsync(UserAuthenticationHandler.CustomerSchemeName, claimsPrincipal, properties);
 
