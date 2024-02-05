@@ -11,7 +11,7 @@ using RazorEngineCore;
 
 namespace LinkBox.Template
 {
-    public class TemplateMiddleware
+    public class TemplateMiddleware : IMiddleware
     {
         private readonly RequestDelegate _next;
         public readonly IHostEnvironment _hostEnvironment;
@@ -21,7 +21,7 @@ namespace LinkBox.Template
             _hostEnvironment = hostEnvironment;
         }
 
-        public async Task InvokeAsync(HttpContext context)
+        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
             stopwatch.Start();

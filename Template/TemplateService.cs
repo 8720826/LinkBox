@@ -19,6 +19,12 @@ namespace LinkBox.Template
             var defaultpath = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot", "template", file);
             var html = System.IO.File.ReadAllText(defaultpath, System.Text.Encoding.UTF8);
 
+            var dir = Path.Combine(_hostEnvironment.ContentRootPath, "data", "template");
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+
             var newpath = Path.Combine(_hostEnvironment.ContentRootPath, "data", "template", file);
             System.IO.File.WriteAllText(newpath, html);
 

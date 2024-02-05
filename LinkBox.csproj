@@ -24,18 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="data\template\index.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="data\template\index.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="data\template\index.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="FluentMigrator" Version="5.0.0" />
     <PackageReference Include="FluentMigrator.Runner.SQLite" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.1" />
@@ -68,9 +56,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="data\linkbox.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <Folder Include="data\" />
   </ItemGroup>
 
 </Project>
