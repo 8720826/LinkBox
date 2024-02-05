@@ -9,6 +9,7 @@ namespace LinkBox.Migrator.Migrations
     {
         public override void Up()
         {
+            /*
             if (!Schema.Table("User").Exists())
             {
                 Create.Table("User")
@@ -23,7 +24,7 @@ namespace LinkBox.Migrator.Migrations
                     Id = 1
                 });
             }
-
+            */
 
             if (!Schema.Table("Category").Exists())
             {
@@ -71,12 +72,13 @@ namespace LinkBox.Migrator.Migrations
 
         public override void Down()
         {
+            /*
 
             if (Schema.Table("User").Exists())
             {
                 Delete.Table("User");
             }
-
+            */
 
             if (Schema.Table("Category").Exists())
             {

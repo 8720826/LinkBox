@@ -35,6 +35,12 @@ namespace LinkBox.Pages.User
 
             var password = _configuration["PASSWORD"]?.ToString() ?? "";
 
+            if (string.IsNullOrEmpty(password))
+            {
+                ModelState.AddModelError("", "请先在环境变量设置登录密码！");
+                return Page();
+            }
+
             if (password != User.Password)
             {
                 ModelState.AddModelError("", "密码错误！");
