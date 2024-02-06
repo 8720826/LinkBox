@@ -7,7 +7,9 @@ namespace LinkBox.Template
 {
     public class TemplateProvider
     {
-        public static string Compile(string contentRootPath, string html)
+        public static DateTime NextCompileTime { get; set; } = DateTime.MinValue;
+
+        public static string Compile(string html,string css,string js)
         {
             LinkBoxData.Refresh();
             var appCategories = LinkBoxData.Categories.Where(x => x.Type == Entities.Enums.CategoryTypeEnum.应用).Select(x => new CategoryModel
@@ -44,14 +46,14 @@ namespace LinkBox.Template
                 Title = LinkBoxData.Config?.Title ?? "",
             };
 
-            var model = new TemplateModel { AppCategories = appCategories, BookmarkCategories = bookmarkCategories, Config = config };
-
-            if (!string.IsNullOrEmpty(contentRootPath))
+            var model = new TemplateModel
             {
-                model.Css = Read(contentRootPath,"index.css");
-                model.Js = Read(contentRootPath, "index.js");
-            }
-           
+                AppCategories = appCategories,
+                BookmarkCategories = bookmarkCategories,
+                Config = config,
+                Css = css,
+                Js = js
+            };
 
             var razorEngine = new RazorEngine();
             var template = razorEngine.Compile(html);
@@ -90,5 +92,7 @@ namespace LinkBox.Template
             var path = Path.Combine(contentRootPath, "data", "template", file);
             return System.IO.File.ReadAllText(path, System.Text.Encoding.UTF8);
         }
+
+
     }
 }

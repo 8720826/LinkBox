@@ -57,6 +57,8 @@ namespace LinkBox
             builder.Services.AddDbContext<LinkboxDbContext>();
             builder.Services.AddMigrate(dir);
             builder.Services.AddTemplate(dir);
+            builder.Services.AddHostedService<TemplateJob>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -79,9 +81,8 @@ namespace LinkBox
             {
                 var path = Path.Combine(app.Environment.ContentRootPath, "data", "template/index.html");
                 var html = File.ReadAllText(path, System.Text.Encoding.UTF8);
-                var result = TemplateProvider.Compile(app.Environment.ContentRootPath, html);
                 context.Response.ContentType = "text/html;charset=utf-8";
-                return result;
+                return html;
             });
 
             app.MapRazorPages();

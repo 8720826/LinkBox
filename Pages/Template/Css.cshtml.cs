@@ -35,7 +35,10 @@ namespace LinkBox.Pages.Template
                 return Page();
             }
 
-            TemplateProvider.Update(_hostEnvironment.ContentRootPath, "index.css", Template.Content);
+            TemplateProvider.Update(_hostEnvironment.ContentRootPath, "index.css", Template.Content ?? "");
+
+            TemplateProvider.NextCompileTime = DateTime.Now;
+
 
             Message = "更新成功！";
 

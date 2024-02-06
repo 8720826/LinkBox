@@ -37,6 +37,8 @@ namespace LinkBox.Pages.Template
 
             TemplateProvider.Update(_hostEnvironment.ContentRootPath, "index.js", Template.Content ?? "");
 
+            TemplateProvider.NextCompileTime = DateTime.Now;
+
             Message = "更新成功！";
 
             return Page();

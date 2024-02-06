@@ -49,16 +49,12 @@
     <Content Update="wwwroot\template\index.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\template\index.html">
+    <Content Update="wwwroot\template\index.tpl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\template\index.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="data\" />
   </ItemGroup>
 
 </Project>

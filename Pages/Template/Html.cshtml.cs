@@ -22,7 +22,7 @@ namespace LinkBox.Pages.Template
 
         public void OnGet()
         {
-            Template.Content = TemplateProvider.Read(_hostEnvironment.ContentRootPath, "index.html");
+            Template.Content = TemplateProvider.Read(_hostEnvironment.ContentRootPath, "index.tpl");
         }
 
         public IActionResult OnPost(string action)
@@ -31,7 +31,7 @@ namespace LinkBox.Pages.Template
             if (action == "reset")
             {
 
-                Template.Content = TemplateProvider.Reset(_hostEnvironment.ContentRootPath, "index.html");
+                Template.Content = TemplateProvider.Reset(_hostEnvironment.ContentRootPath, "index.tpl");
 
                 Message = "重置成功！";
                 return Page();
@@ -45,7 +45,8 @@ namespace LinkBox.Pages.Template
 
                 try
                 {
-                    var result = TemplateProvider.Compile(_hostEnvironment.ContentRootPath, Template.Content);
+
+                    var result = TemplateProvider.Compile(Template.Content, "", "");
                 }
                 catch (Exception ex)
                 {
@@ -53,7 +54,9 @@ namespace LinkBox.Pages.Template
                     return Page();
                 }
 
-                TemplateProvider.Update(_hostEnvironment.ContentRootPath, "index.html", Template.Content);
+                TemplateProvider.Update(_hostEnvironment.ContentRootPath, "index.tpl", Template.Content);
+
+                TemplateProvider.NextCompileTime = DateTime.Now;
 
                 Message = "更新成功！";
                 return Page();

@@ -40,7 +40,7 @@ namespace LinkBox.Migrator
 
         public static IServiceCollection AddTemplate(this IServiceCollection services, string dir)
         {
-            TemplateProvider.Reset(dir, "index.html");
+            TemplateProvider.Reset(dir, "index.tpl");
             TemplateProvider.Reset(dir, "index.js");
             TemplateProvider.Reset(dir, "index.css");
 
