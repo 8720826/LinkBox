@@ -47,7 +47,7 @@ namespace LinkBox.Template
 
                     var result = TemplateProvider.Compile(tpl, css, js);
 
-                    TemplateProvider.Update(_hostEnvironment.ContentRootPath, "index.html", result);
+                    TemplateProvider.GenerateHtml(_hostEnvironment.ContentRootPath, result);
 
                     TemplateProvider.NextCompileTime = DateTime.Now.AddMinutes(5);
                 }

@@ -12,6 +12,7 @@ namespace LinkBox.Pages.Link
     [UserAuthorize]
     public class DeleteModel : PageModel
     {
+        [BindProperty]
         public DeleteLinkDto Link { get; set; } = default!;
 
 

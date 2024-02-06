@@ -81,9 +81,15 @@ namespace LinkBox.Template
             return html;
         }
 
-        public static void Update(string contentRootPath, string file, string content)
+        public static void UpdateTemplate(string contentRootPath, string file, string content)
         {
             var newpath = Path.Combine(contentRootPath, "data", "template", file);
+            System.IO.File.WriteAllText(newpath, content);
+        }
+
+        public static void GenerateHtml(string contentRootPath, string content)
+        {
+            var newpath = Path.Combine(contentRootPath, "wwwroot", "index.html");
             System.IO.File.WriteAllText(newpath, content);
         }
 

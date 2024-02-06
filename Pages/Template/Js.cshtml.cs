@@ -49,7 +49,7 @@ namespace LinkBox.Pages.Template
                     return Page();
                 }
 
-                TemplateProvider.Update(_hostEnvironment.ContentRootPath, "index.js", Template.Content ?? "");
+                TemplateProvider.UpdateTemplate(_hostEnvironment.ContentRootPath, "index.js", Template.Content ?? "");
 
                 if (Template.IsCompileImmediately)
                 {

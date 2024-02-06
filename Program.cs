@@ -4,6 +4,7 @@ using LinkBox.Migrator;
 using LinkBox.Template;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.WebEncoders;
@@ -69,6 +70,8 @@ namespace LinkBox
                 app.UseHsts();
             }
 
+
+            app.UseDefaultFiles(new DefaultFilesOptions() { DefaultFileNames = new List<string> { "index.html" } });
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
             //app.UseGlobalExceptionMiddleware();
@@ -76,14 +79,6 @@ namespace LinkBox
            
             app.UseRouting();
             app.UseAuthorization();
-
-            app.MapGet("/", (HttpContext context) =>
-            {
-                var path = Path.Combine(app.Environment.ContentRootPath, "data", "template/index.html");
-                var html = File.ReadAllText(path, System.Text.Encoding.UTF8);
-                context.Response.ContentType = "text/html;charset=utf-8";
-                return html;
-            });
 
             app.MapRazorPages();
             app.MapHealthChecks("/health");
