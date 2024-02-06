@@ -8,22 +8,7 @@ namespace LinkBox.Migrator.Migrations
     {
         public override void Up()
         {
-            /*
-            if (!Schema.Table("User").Exists())
-            {
-                Create.Table("User")
-                    .WithColumn("Id").AsInt32().NotNullable().PrimaryKey().Identity()
-                    .WithColumn("Name").AsString(64).NotNullable()
-                    .WithColumn("Password").AsString(64).NotNullable();
 
-                Insert.IntoTable("User").Row(new
-                {
-                    Name = "admin",
-                    Password = "admin".ToMd5(),
-                    Id = 1
-                });
-            }
-            */
 
             if (!Schema.Table("Category").Exists())
             {
@@ -71,13 +56,6 @@ namespace LinkBox.Migrator.Migrations
 
         public override void Down()
         {
-            /*
-
-            if (Schema.Table("User").Exists())
-            {
-                Delete.Table("User");
-            }
-            */
 
             if (Schema.Table("Category").Exists())
             {

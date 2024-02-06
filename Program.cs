@@ -73,7 +73,13 @@ namespace LinkBox
 
             app.UseDefaultFiles(new DefaultFilesOptions() { DefaultFileNames = new List<string> { "index.html" } });
             //app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers.Append("Cache-Control", $"public, max-age=600");
+                }
+            });
             //app.UseGlobalExceptionMiddleware();
             app.UseAuthentication();
            

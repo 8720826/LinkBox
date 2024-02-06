@@ -49,7 +49,7 @@ namespace LinkBox.Template
 
                     TemplateProvider.GenerateHtml(_hostEnvironment.ContentRootPath, result);
 
-                    TemplateProvider.NextCompileTime = DateTime.Now.AddMinutes(5);
+                    TemplateProvider.NextCompileTime = DateTime.Now.AddMinutes(10);
                 }
                 catch (Exception ex)
                 {
