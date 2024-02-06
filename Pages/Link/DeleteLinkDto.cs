@@ -13,5 +13,8 @@ namespace LinkBox.Pages.Link
 
         [Display(Name = "地址")]
         public string Url { get; set; } = "";
+
+        [Display(Name = "立即更新页面")]
+        public bool IsCompileImmediately { get; set; }
     }
 }

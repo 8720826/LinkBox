@@ -8,6 +8,7 @@ using LinkBox.Models;
 using LinkBox.Authorizations;
 using Mapster;
 using LinkBox.Extentions;
+using LinkBox.Template;
 
 namespace LinkBox.Pages.Link
 {
@@ -55,7 +56,10 @@ namespace LinkBox.Pages.Link
             _db.Links.Add(link);
             await _db.SaveChangesAsync();
             LinkBoxData.Refresh(true);
-
+            if (Link.IsCompileImmediately)
+            {
+                TemplateProvider.NextCompileTime = DateTime.Now;
+            }
             return RedirectToPage("./Index");
         }
     }

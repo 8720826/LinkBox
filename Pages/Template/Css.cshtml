@@ -29,7 +29,15 @@
                             </textarea>
                             <span asp-validation-for="Template.Content" class="text-danger"></span>
                         </div>
-                        <button type="submit" class="btn btn-default" id="sub1">确定</button>
+
+                        <div class="form-group">
+                            <input asp-for="Template.IsCompileImmediately" type="checkbox" />
+                            <label asp-for="Template.IsCompileImmediately" class="control-label"></label>
+                            <span asp-validation-for="Template.IsCompileImmediately" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-default" name="action" value="update">确定</button>
+                        <button type="submit" class="btn btn-secondary" name="action" value="reset">重置为默认</button>
                     </form>
                 </div>
             </div>

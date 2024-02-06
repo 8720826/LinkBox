@@ -3,6 +3,7 @@ using LinkBox.Bookmarks.NetscapeFormat;
 using LinkBox.Contexts;
 using LinkBox.Entities;
 using LinkBox.Models;
+using LinkBox.Template;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -23,17 +24,14 @@ namespace LinkBox.Pages.Link
 
         public SelectList Categories { get; set; }
 
-        [Display(Name = "书签文件")]
-        [BindProperty]
-        public IFormFile BookmarkFile { get; set; }
 
-        [Display(Name = "分类")]
         [BindProperty]
-        public int CategoryId { get; set; }
+        public ImportLinkDto Link { get; set; }
+
 
         private void Init()
         {
-            var categories = _db.Categories.ToList();
+            var categories = _db.Categories.Where(x=>x.Type== Entities.Enums.CategoryTypeEnum.书签).ToList();
 
             Categories = new SelectList(categories, "Id", "Name");
         }
@@ -44,29 +42,17 @@ namespace LinkBox.Pages.Link
             Init();
         }
 
-        public static string BinaryToChinese(string input)
-        {
-            StringBuilder sb = new StringBuilder();
-            int numOfBytes = input.Length / 8;
-            byte[] bytes = new byte[numOfBytes];
-            for (int i = 0; i < numOfBytes; ++i)
-            {
-                bytes[i] = Convert.ToByte(input.Substring(8 * i, 8), 2);
-            }
-            return System.Text.Encoding.Unicode.GetString(bytes);
-        }
-
         public IActionResult OnPost()
         {
 
-            if (BookmarkFile == null)
+            if (Link.BookmarkFile == null)
             {
                 Init();
                 ModelState.AddModelError("", "请上传文件！");
                 return Page();
             }
 
-            var Category = _db.Categories.Find(CategoryId);
+            var Category = _db.Categories.Find(Link.CategoryId);
 
             if (Category == null)
             {
@@ -76,7 +62,7 @@ namespace LinkBox.Pages.Link
             }
 
             var html = "";
-            using (var reader = new StreamReader(BookmarkFile.OpenReadStream()))
+            using (var reader = new StreamReader(Link.BookmarkFile.OpenReadStream()))
             {
                 html = reader.ReadToEnd();
             }
@@ -112,13 +98,18 @@ namespace LinkBox.Pages.Link
                     Title = bookmark.Title ?? "",
                     Icon = icon,
                     SortId = int.MaxValue,
-                    CategoryId = CategoryId
+                    CategoryId = Link.CategoryId
                 });
                 //Console.WriteLine("Url: {0}; Title: {1}", bookmark.Url, bookmark.Title);
             }
             _db.Links.AddRange(list);
             _db.SaveChanges();
             LinkBoxData.Refresh(true);
+
+            if (Link.IsCompileImmediately)
+            {
+                TemplateProvider.NextCompileTime = DateTime.Now;
+            }
 
             return RedirectToPage("./Index");
         }

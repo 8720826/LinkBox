@@ -32,7 +32,10 @@ namespace LinkBox.Pages.Template
             {
 
                 Template.Content = TemplateProvider.Reset(_hostEnvironment.ContentRootPath, "index.tpl");
-
+                if (Template.IsCompileImmediately)
+                {
+                    TemplateProvider.NextCompileTime = DateTime.Now;
+                }
                 Message = "重置成功！";
                 return Page();
             }
@@ -56,7 +59,10 @@ namespace LinkBox.Pages.Template
 
                 TemplateProvider.Update(_hostEnvironment.ContentRootPath, "index.tpl", Template.Content);
 
-                TemplateProvider.NextCompileTime = DateTime.Now;
+                if (Template.IsCompileImmediately)
+                {
+                    TemplateProvider.NextCompileTime = DateTime.Now;
+                }
 
                 Message = "更新成功！";
                 return Page();

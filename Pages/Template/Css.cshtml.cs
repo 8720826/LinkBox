@@ -2,6 +2,7 @@ using LinkBox.Authorizations;
 using LinkBox.Template;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 
 namespace LinkBox.Pages.Template
 {
@@ -26,23 +27,40 @@ namespace LinkBox.Pages.Template
             Template.Content = TemplateProvider.Read(_hostEnvironment.ContentRootPath, "index.css");
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPost(string action)
         {
             Message = "自定义样式";
-
-            if (!ModelState.IsValid)
+            if (action == "reset")
             {
+
+                Template.Content = TemplateProvider.Reset(_hostEnvironment.ContentRootPath, "index.tpl");
+                if (Template.IsCompileImmediately)
+                {
+                    TemplateProvider.NextCompileTime = DateTime.Now;
+                }
+
+                Message = "重置成功！";
                 return Page();
             }
+            else
+            {
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
 
-            TemplateProvider.Update(_hostEnvironment.ContentRootPath, "index.css", Template.Content ?? "");
+                TemplateProvider.Update(_hostEnvironment.ContentRootPath, "index.css", Template.Content ?? "");
 
-            TemplateProvider.NextCompileTime = DateTime.Now;
+                if (Template.IsCompileImmediately)
+                {
+                    TemplateProvider.NextCompileTime = DateTime.Now;
+                }
 
 
-            Message = "更新成功！";
+                Message = "更新成功！";
 
-            return Page();
+                return Page();
+            }
         }
     }
 }

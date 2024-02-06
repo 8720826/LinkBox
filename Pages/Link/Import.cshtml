@@ -25,20 +25,25 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                         <div class="form-group">
-                            <label asp-for="CategoryId" class="control-label"></label>
-                            <select asp-for="CategoryId" asp-items="Model.Categories" class="form-control">
+                            <label asp-for="Link.CategoryId" class="control-label"></label>
+                            <select asp-for="Link.CategoryId" asp-items="Model.Categories" class="form-control">
                                 <option value="">请选择</option>
                             </select>
-                            <span asp-validation-for="CategoryId" class="text-danger"></span>
+                            <span asp-validation-for="Link.CategoryId" class="text-danger"></span>
                         </div>
 
                         <div class="form-group">
-                            <label asp-for="BookmarkFile" class="control-label"></label>
-                            <input asp-for="BookmarkFile" class="custom-file-input form-control">
-                            <span asp-validation-for="BookmarkFile" class="text-danger"></span>
+                            <label asp-for="Link.BookmarkFile" class="control-label"></label>
+                            <input asp-for="Link.BookmarkFile" class="custom-file-input form-control">
+                            <span asp-validation-for="Link.BookmarkFile" class="text-danger"></span>
                         </div>
 
 
+                        <div class="form-group">
+                            <input asp-for="Link.IsCompileImmediately" type="checkbox" />
+                            <label asp-for="Link.IsCompileImmediately" class="control-label"></label>
+                            <span asp-validation-for="Link.IsCompileImmediately" class="text-danger"></span>
+                        </div>
 
                         <button type="submit" class="btn btn-default">确定</button>
 

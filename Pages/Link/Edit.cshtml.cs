@@ -3,6 +3,7 @@ using LinkBox.Contexts;
 using LinkBox.Entities;
 using LinkBox.Extentions;
 using LinkBox.Models;
+using LinkBox.Template;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -65,7 +66,10 @@ namespace LinkBox.Pages.Link
             await _db.SaveChangesAsync();
 
             LinkBoxData.Refresh(true);
-
+            if (Link.IsCompileImmediately)
+            {
+                TemplateProvider.NextCompileTime = DateTime.Now;
+            }
             return RedirectToPage("./Index");
         }
     }

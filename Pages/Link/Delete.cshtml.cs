@@ -2,6 +2,7 @@ using LinkBox.Authorizations;
 using LinkBox.Contexts;
 using LinkBox.Entities;
 using LinkBox.Models;
+using LinkBox.Template;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -46,7 +47,10 @@ namespace LinkBox.Pages.Link
             _db.Links.Remove(link);
             _db.SaveChanges();
             LinkBoxData.Refresh(true);
-
+            if (Link.IsCompileImmediately)
+            {
+                TemplateProvider.NextCompileTime = DateTime.Now;
+            }
             return RedirectToPage("./Index");
         }
     }
