@@ -22,7 +22,7 @@
             <div class="module-container" id="hero-container">
                 <div id="plugin-datetime">
                     <p>
-                        <span>@(System.DateTime.Now.ToString("yyyy年MM月dd日 dddd"))</span>
+                        <span>@(System.DateTime.Now.ToString("yyyy年MM月dd日 dddd",System.Globalization.CultureInfo.GetCultureInfo("zh-cn")))</span>
                     </p>
                     <h1 class="plugin-container" id="plugin-greetings">Hello World</h1>
                 </div>
