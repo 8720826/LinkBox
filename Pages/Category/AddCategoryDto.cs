@@ -12,7 +12,7 @@ namespace LinkBox.Pages.Category
         [DataType(DataType.Text)]
 
         [Display(Name = "排序")]
-        public int SortId { get; set; }
+        public int SortId { get; set; } = 99;
 
         [Display(Name = "类型")]
         public CategoryTypeEnum Type { get; set; }

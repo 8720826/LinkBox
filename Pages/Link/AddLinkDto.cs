@@ -31,7 +31,7 @@ namespace LinkBox.Pages.Link
 
         [Required(ErrorMessage = "请输入排序")]
         [Display(Name = "排序")]
-        public int SortId { get; set; }
+        public int SortId { get; set; } = 99;
 
         [Display(Name = "立即更新页面")]
         public bool IsCompileImmediately { get; set; }

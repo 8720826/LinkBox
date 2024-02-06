@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@Model.Config.Name - LinkBox</title>
+    <title>@Model.Config.Title - @Model.Config.Name</title>
     <style>
         @(Model.Css)
     </style>
@@ -22,7 +22,7 @@
             <div class="module-container" id="hero-container">
                 <div id="plugin-datetime">
                     <p>
-                        <span>@(System.DateTime.Now.ToString("yyyy年MM月dd日 dddd HH:mm:ss",System.Globalization.CultureInfo.GetCultureInfo("zh-cn")))</span>
+                        <span>@(System.DateTime.Now.ToString("yyyy年MM月dd日 dddd",System.Globalization.CultureInfo.GetCultureInfo("zh-cn")))</span>
                     </p>
                     <h1 class="plugin-container" id="plugin-greetings">Hello World</h1>
                 </div>
