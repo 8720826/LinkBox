@@ -82,8 +82,18 @@
                                         }
                                        
                                     </td>
-
-                                    <td title="上次可访问时间 @item.LastAvailableTime.ToFriendlyTime()">
+                                    @{
+                                        var title = "";
+                                        @if (item.IsAvailable)
+                                        {
+                                            title = $"上次检测时间 {@item.LastCheckTime.ToFriendlyTime()}";
+                                        }
+                                        else
+                                        {
+                                            title = $"上次可访问时间 {@item.LastAvailableTime.ToFriendlyTime()}";
+                                        }
+                                    }
+                                    <td title="@title">
                                         @Html.DisplayFor(modelItem => item.IsAvailable)
                                     </td>
                                     <td>
