@@ -29,7 +29,7 @@ namespace LinkBox.Migrator.Migrations
                     .WithColumn("Id").AsInt32().NotNullable().PrimaryKey().Identity()
                     .WithColumn("CategoryId").AsInt32().NotNullable().Indexed()
                     .WithColumn("SortId").AsInt32().NotNullable()
-                    .WithColumn("Icon").AsString(2048).NotNullable()
+                    .WithColumn("Icon").AsString(int.MaxValue).NotNullable()
                     .WithColumn("Title").AsString(2048).NotNullable()
                     .WithColumn("Url").AsString(2048).NotNullable()
                     .WithColumn("Description").AsString(2048).NotNullable();

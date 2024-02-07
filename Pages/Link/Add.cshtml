@@ -32,11 +32,7 @@
                             <span asp-validation-for="Link.CategoryId" class="text-danger"></span>
                         </div>
 
-                        <div class="form-group">
-                            <label asp-for="Link.Title" class="control-label"></label>
-                            <input asp-for="Link.Title" class="form-control" />
-                            <span asp-validation-for="Link.Title" class="text-danger"></span>
-                        </div>
+
                         <div class="form-group">
                             <label asp-for="Link.Url" class="control-label"></label>
                             <input asp-for="Link.Url" class="form-control" />
@@ -44,32 +40,69 @@
                         </div>
 
                         <div class="form-group">
-                            <label asp-for="Link.Icon" class="control-label"></label>
-                            <input asp-for="Link.Icon" class="form-control" />
-                            <span asp-validation-for="Link.Icon" class="text-danger"></span>
+                            <input type="checkbox" id="form-more-checkbox" name="form-more-checkbox" />
+                            <label class="control-label" for="form-more-checkbox">显示高级选项</label>
                         </div>
 
-                        <div class="form-group">
-                            <label asp-for="Link.Description" class="control-label"></label>
-                            <input asp-for="Link.Description" class="form-control" />
-                            <span asp-validation-for="Link.Description" class="text-danger"></span>
+                        <div id="form-more-div" class="hidden">
+                            <div class="form-group">
+                                <label asp-for="Link.Title" class="control-label"></label>
+                                <input asp-for="Link.Title" class="form-control" />
+                                <span asp-validation-for="Link.Title" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <input asp-for="Link.IsFetchTitleFromLink" type="checkbox" checked="checked" />
+                                <label asp-for="Link.IsFetchTitleFromLink" class="control-label"></label>
+                                <span asp-validation-for="Link.IsFetchTitleFromLink" class="text-danger"></span>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label asp-for="Link.Icon" class="control-label"></label>
+                                <input asp-for="Link.Icon" class="form-control" />
+                                <span asp-validation-for="Link.Icon" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <input asp-for="Link.IsFetchIconFromLink" type="checkbox" checked="checked" />
+                                <label asp-for="Link.IsFetchIconFromLink" class="control-label"></label>
+                                <span asp-validation-for="Link.IsFetchIconFromLink" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <input asp-for="Link.IsSaveIconToBase64" type="checkbox" />
+                                <label asp-for="Link.IsSaveIconToBase64" class="control-label"></label>
+                                <span asp-validation-for="Link.IsSaveIconToBase64" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Link.Description" class="control-label"></label>
+                                <input asp-for="Link.Description" class="form-control" />
+                                <span asp-validation-for="Link.Description" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <input asp-for="Link.IsFetchDescriptionFromLink" type="checkbox" checked="checked" />
+                                <label asp-for="Link.IsFetchDescriptionFromLink" class="control-label"></label>
+                                <span asp-validation-for="Link.IsFetchDescriptionFromLink" class="text-danger"></span>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label asp-for="Link.SortId" class="control-label"></label>
+                                <input asp-for="Link.SortId" class="form-control" value="99" />
+                                <span asp-validation-for="Link.SortId" class="text-danger"></span>
+                            </div>
+
+
+                            <div class="form-group">
+                                <input asp-for="Link.IsCompileImmediately" type="checkbox" />
+                                <label asp-for="Link.IsCompileImmediately" class="control-label"></label>
+                                <span asp-validation-for="Link.IsCompileImmediately" class="text-danger"></span>
+                            </div>
                         </div>
-
-
-
-                        <div class="form-group">
-                            <label asp-for="Link.SortId" class="control-label"></label>
-                            <input asp-for="Link.SortId" class="form-control" />
-                            <span asp-validation-for="Link.SortId" class="text-danger"></span>
-                        </div>
-
-
-                        <div class="form-group">
-                            <input asp-for="Link.IsCompileImmediately" type="checkbox" />
-                            <label asp-for="Link.IsCompileImmediately" class="control-label"></label>
-                            <span asp-validation-for="Link.IsCompileImmediately" class="text-danger"></span>
-                        </div>
-
                         <button type="submit" class="btn btn-default">确定</button>
 
                     </form>
@@ -78,3 +111,18 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        (function () {
+            $("#form-more-checkbox").on("change", function () {
+                if ($(this).is(":checked")) {
+                    $("#form-more-div").removeClass("hidden");
+                }
+                else {
+                    $("#form-more-div").addClass("hidden");
+                }
+            });
+        })();
+    </script>
+}

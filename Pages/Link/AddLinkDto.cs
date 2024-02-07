@@ -8,10 +8,13 @@ namespace LinkBox.Pages.Link
         [Display(Name = "分类")]
         public int CategoryId { get; set; }
 
-        [Required(ErrorMessage = "请输入名称")]
+
         [MaxLength(2048, ErrorMessage = "最大长度不能超过{1}")]
         [Display(Name = "名称")]
-        public string Title { get; set; } = "";
+        public string? Title { get; set; } = "";
+
+        [Display(Name = "从网页读取名称")]
+        public bool IsFetchTitleFromLink { get; set; }
 
         [Required(ErrorMessage = "请输入地址")]
         [MaxLength(2048, ErrorMessage = "最大长度不能超过{1}")]
@@ -25,7 +28,6 @@ namespace LinkBox.Pages.Link
 
 
         [Display(Name = "图标")]
-        [MaxLength(2048, ErrorMessage = "最大长度不能超过{1}")]
         public string? Icon { get; set; } = "";
 
 
@@ -35,5 +37,15 @@ namespace LinkBox.Pages.Link
 
         [Display(Name = "立即更新页面")]
         public bool IsCompileImmediately { get; set; }
+
+
+        [Display(Name = "从网页读取图标")]
+        public bool IsFetchIconFromLink { get; set; }
+
+        [Display(Name = "保存图标为Base64格式")]
+        public bool IsSaveIconToBase64 { get; set; }
+
+        [Display(Name = "从网页读取描述")]
+        public bool IsFetchDescriptionFromLink { get; set; }
     }
 }

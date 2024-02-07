@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@Model.Config.Title - @Model.Config.Name</title>
+    <title>@Model.Config.Title - LinkBox</title>
     <style>
         @(Model.Css)
     </style>
