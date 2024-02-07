@@ -18,12 +18,9 @@ namespace LinkBox.Pages.Db
         }
         public void OnGet(int v = -1)
         {
-            if (_environment.IsDevelopment())
-            {
-                _migrator.MigrateDown(v);
-                LinkBoxData.Refresh(true);
-            }
-           
+            _migrator.MigrateDown(v);
+            LinkBoxData.Refresh(true);
+
         }
     }
 }
