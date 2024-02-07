@@ -84,13 +84,20 @@
                                     </td>
                                     @{
                                         var title = "";
-                                        @if (item.IsAvailable)
+                                        @if (item.LastCheckTime == SqlDateTime.MinValue)
                                         {
-                                            title = $"上次检测时间 {@item.LastCheckTime.ToFriendlyTime()}";
+                                            title = $"未检测";
                                         }
                                         else
                                         {
-                                            title = $"上次可访问时间 {@item.LastAvailableTime.ToFriendlyTime()}";
+                                            @if (item.IsAvailable)
+                                            {
+                                                title = $"上次检测时间 {@item.LastCheckTime.ToFriendlyTime()}";
+                                            }
+                                            else
+                                            {
+                                                title = $"上次可访问时间 {@item.LastAvailableTime.ToFriendlyTime()}";
+                                            }
                                         }
                                     }
                                     <td title="@title">
