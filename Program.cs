@@ -1,7 +1,7 @@
 using LinkBox.Authorizations;
 using LinkBox.Contexts;
+using LinkBox.Jobs;
 using LinkBox.Migrator;
-using LinkBox.Template;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -59,7 +59,9 @@ namespace LinkBox
             builder.Services.AddMigrate(dir);
             builder.Services.AddTemplate(dir);
             builder.Services.AddHostedService<TemplateJob>();
+            builder.Services.AddHostedService<LinkJob>();
 
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

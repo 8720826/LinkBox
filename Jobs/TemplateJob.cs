@@ -1,7 +1,7 @@
-﻿
+﻿using LinkBox.Template;
 using Microsoft.Extensions.Hosting;
 
-namespace LinkBox.Template
+namespace LinkBox.Jobs
 {
     public class TemplateJob : BackgroundService
     {
@@ -32,7 +32,7 @@ namespace LinkBox.Template
                 // 间隔的时间
                 await Task.Delay(1000);
             }
-           
+
         }
 
         private void CompileHtml()

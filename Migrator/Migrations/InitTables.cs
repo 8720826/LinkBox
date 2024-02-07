@@ -32,7 +32,10 @@ namespace LinkBox.Migrator.Migrations
                     .WithColumn("Icon").AsString(int.MaxValue).NotNullable()
                     .WithColumn("Title").AsString(2048).NotNullable()
                     .WithColumn("Url").AsString(2048).NotNullable()
-                    .WithColumn("Description").AsString(2048).NotNullable();
+                    .WithColumn("Description").AsString(2048).NotNullable()
+                    .WithColumn("IsAvailable").AsBoolean().NotNullable().WithDefaultValue(true)
+                    .WithColumn("LastCheckTime").AsDateTime().NotNullable().WithDefault(SystemMethods.CurrentDateTime)
+                    .WithColumn("LastAvailableTime").AsDateTime().NotNullable().WithDefault(SystemMethods.CurrentDateTime);
 
                 Insert.IntoTable("Link").Row(new { Title = "LinkBox", Url = "http://127.0.0.1:5005", Description = "一个简洁的个人导航网站", Icon = "https://www.zhipin.com/favicon.ico", CategoryId = 1, SortId = 1 });
 

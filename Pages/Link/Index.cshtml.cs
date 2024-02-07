@@ -1,6 +1,7 @@
 using LinkBox.Authorizations;
 using LinkBox.Contexts;
 using LinkBox.Entities;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,7 @@ namespace LinkBox.Pages.Link
         public int PageSize { get; set; } = 100;
 
  
-        public PaginatedList<LinkEntity> Links { get; set; }
+        public PaginatedList<ListLinkDto> Links { get; set; }
 
 
         private readonly LinkboxDbContext _db;
@@ -40,9 +41,9 @@ namespace LinkBox.Pages.Link
                 PageSize = 10;
             }
 
-            var query = _db.Links.OrderByDescending(x => x.Id);
+            var query = _db.Links.OrderByDescending(x => x.Id).ProjectToType<ListLinkDto>();
 
-            Links = PaginatedList<LinkEntity>.Create(query.AsNoTracking(), PageIndex, PageSize);
+            Links = PaginatedList<ListLinkDto>.Create(query.AsNoTracking(), PageIndex, PageSize);
         }
     }
 }

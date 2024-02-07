@@ -22,5 +22,12 @@ namespace LinkBox.Entities
 
         public int SortId { get; set; }
 
+
+        public bool IsAvailable { get; set; }
+
+        public DateTime LastCheckTime { get; set; }
+
+        public DateTime LastAvailableTime { get; set; }
+
     }
 }

@@ -59,6 +59,7 @@
                             <tr>   
                                 <th>@Html.DisplayNameFor(model => model.Links[0].Title)</th>
                                 <th>@Html.DisplayNameFor(model => model.Links[0].Url) </th>
+                                <th style="width:60px">@Html.DisplayNameFor(model => model.Links[0].IsAvailable) </th>
                                 <th style="width:120px"> </th>
                             </tr>
                         </thead>
@@ -71,10 +72,20 @@
                                         @Html.DisplayFor(modelItem => item.Title)
                                     </td>
                                     <td style="white-space:nowrap;word-break:keep-all;text-overflow:ellipsis;overflow:hidden;" title="@item.Url">
-                                        <a href="@item.Url" target="_blank">@Html.DisplayFor(modelItem => item.Url)</a>
+                                        @if (item.IsAvailable)
+                                        {
+                                            <a href="@item.Url" target="_blank">@Html.DisplayFor(modelItem => item.Url)</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@item.Url" target="_blank" style="color:#FF0000">@Html.DisplayFor(modelItem => item.Url)</a>
+                                        }
+                                       
                                     </td>
 
-
+                                    <td title="上次可访问时间 @item.LastAvailableTime.ToFriendlyTime()">
+                                        @Html.DisplayFor(modelItem => item.IsAvailable)
+                                    </td>
                                     <td>
                                         <a asp-page="./Edit" asp-route-id="@item.Id">编辑</a> |
                                         <a asp-page="./Delete" asp-route-id="@item.Id">删除</a>
