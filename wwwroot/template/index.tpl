@@ -38,7 +38,7 @@
                     @foreach (var link in cate.Links)
                     {
                     <div class="app-container" data-id="evernote">
-                        <a target="_blank" rel="noopener" href="@(link.Url)" class="app-item" title="@(link.Title)">
+                        <a target="_blank" rel="noopener" href="@(link.Url)" class="app-item" title="@(link.Url)">
                             <div class="app-icon">
                                 <img src="@(link.Icon)" alt="@(link.Title)" />
                             </div>
@@ -63,7 +63,7 @@
                         @foreach (var link in cate.Links)
                         {
                         <li>
-                            <a target="_blank" rel="noopener" href="@(link.Url)" class="bookmark">
+                            <a target="_blank" rel="noopener" href="@(link.Url)" class="bookmark" title="@(link.Url)">
                                 <img src="@(link.Icon)" alt="@(link.Title)" />
                                 <span>@(link.Title??link.Url)</span>
                             </a>
