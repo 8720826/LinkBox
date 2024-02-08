@@ -84,7 +84,7 @@
                                     </td>
                                     @{
                                         var title = "";
-                                        @if (item.LastCheckTime == SqlDateTime.MinValue)
+                                        @if (item.LastCheckTime == (DateTime)SqlDateTime.MinValue)
                                         {
                                             title = $"未检测";
                                         }

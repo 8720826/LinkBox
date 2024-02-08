@@ -1,13 +1,11 @@
-using LinkBox.Contexts;
-using LinkBox.Entities.Enums;
 using LinkBox.Entities;
 using LinkBox.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using LinkBox.Authorizations;
-using LinkBox.Pages.Link;
 using Mapster;
+using LinkBox.Extentions;
+using LinkBox.Contexts;
 
 namespace LinkBox.Pages.Config
 {
@@ -49,7 +47,14 @@ namespace LinkBox.Pages.Config
                 return Page();
             }
 
-            var config = Config.Adapt<ConfigEntity>();
+            var config = _db.Configs.FirstOrDefault();
+            if (config == null)
+            {
+                config = new ConfigEntity() { Id = 1, Password = "admin".ToMd5() };
+                _db.Configs.Add(config);
+                _db.SaveChanges();
+            }
+            Config.Adapt(config);
             _db.Configs.Update(config);
             await _db.SaveChangesAsync();
 

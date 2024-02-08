@@ -1,4 +1,7 @@
 using LinkBox.Authorizations;
+using LinkBox.Contexts;
+using LinkBox.Entities;
+using LinkBox.Extentions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,12 +11,12 @@ namespace LinkBox.Pages.User
 {
     public class LoginModel : PageModel
     {
-        private readonly IConfiguration _configuration;
-
-        public LoginModel(IConfiguration configuration)
+        private readonly LinkboxDbContext _db;
+        public LoginModel(LinkboxDbContext db)
         {
-            _configuration = configuration;
+            _db = db;
         }
+
 
         [BindProperty]
         public LoginInput Login { get; set; }
@@ -30,21 +33,15 @@ namespace LinkBox.Pages.User
                 return Page();
             }
 
-            var password = _configuration["PASSWORD"]?.ToString() ?? "";
-
-            if (string.IsNullOrEmpty(password))
+            var config = _db.Configs.FirstOrDefault();
+            if (config == null)
             {
-                ModelState.AddModelError("", "请先在环境变量设置登录密码！");
-                return Page();
+                config = new ConfigEntity() { Id = 1, Password = "admin".ToMd5() };
+                _db.Configs.Add(config);
+                _db.SaveChanges();
             }
 
-            if (string.IsNullOrEmpty(Login.Password))
-            {
-                ModelState.AddModelError("", "请输入密码！");
-                return Page();
-            }
-
-            if (password != Login.Password)
+            if (config.Password != Login.Password.ToMd5())
             {
                 ModelState.AddModelError("", "密码错误！");
                 return Page();

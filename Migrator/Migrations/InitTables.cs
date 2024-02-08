@@ -1,5 +1,6 @@
 ﻿using FluentMigrator;
 using LinkBox.Entities.Enums;
+using LinkBox.Extentions;
 using System.Data.SqlTypes;
 
 namespace LinkBox.Migrator.Migrations
@@ -51,7 +52,7 @@ namespace LinkBox.Migrator.Migrations
                  .WithColumn("Name").AsString(64).NotNullable()
                  .WithColumn("Title").AsString(512).NotNullable();
 
-                Insert.IntoTable("Config").Row(new { Name = "LinkBox", Title = "一个简洁、可全自定义的个人导航网站",  Id = 1 });
+                Insert.IntoTable("Config").Row(new { Name = "LinkBox", Title = "一个简洁、可全自定义的个人导航网站",   Id = 1 });
             }
 
         }

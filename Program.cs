@@ -47,7 +47,7 @@ namespace LinkBox
 
             builder.Services.AddMemoryCache();
             builder.Services.AddUserAuthentication();
-            builder.Services.AddEndpointsApiExplorer();
+            //builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 			builder.Services.AddScoped<IMigratorService, MigratorService>();
             builder.Services.AddScoped<IJwtProvider, JwtProvider>();

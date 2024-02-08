@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\Config\Password.cshtml" />
     <Content Remove="wwwroot\index.html" />
   </ItemGroup>
 
@@ -43,6 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Pages\Config\Password.cshtml" />
     <None Include="wwwroot\index.html" />
     <None Include="wwwroot\lib\bootstrap-3.2.0\css\bootstrap-theme.css.map" />
     <None Include="wwwroot\lib\bootstrap-3.2.0\css\bootstrap.css.map" />
