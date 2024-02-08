@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@Model.Config.Title - LinkBox</title>
+    <title>@(Model.Config.Title) - @(Model.Config.Name)</title>
     <style>
         @(Model.Css)
     </style>
@@ -38,13 +38,13 @@
                     @foreach (var link in cate.Links)
                     {
                     <div class="app-container" data-id="evernote">
-                        <a target="_blank" rel="noopener" href="@link.Url" class="app-item" title="@link.Title">
+                        <a target="_blank" rel="noopener" href="@(link.Url)" class="app-item" title="@(link.Title)">
                             <div class="app-icon">
-                                <img src="@(link.Icon)" alt="@link.Title" />
+                                <img src="@(link.Icon)" alt="@(link.Title)" />
                             </div>
                             <div class="app-text">
-                                <p class="app-title">@link.Title</p>
-                                <p class="app-desc">@link.Description</p>
+                                <p class="app-title">@(link.Title)</p>
+                                <p class="app-desc">@(link.Description)</p>
                             </div>
                         </a>
                     </div>
@@ -64,8 +64,8 @@
                         {
                         <li>
                             <a target="_blank" rel="noopener" href="@(link.Url)" class="bookmark">
-                                <img src="@(link.Icon)" alt="@link.Title" />
-                                <span>@(link.Title)</span>
+                                <img src="@(link.Icon)" alt="@(link.Title)" />
+                                <span>@(link.Title??link.Url)</span>
                             </a>
                         </li>
                         }
