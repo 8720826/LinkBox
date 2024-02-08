@@ -11,6 +11,7 @@ using LinkBox.Extentions;
 using LinkBox.Template;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Data.SqlTypes;
 
 namespace LinkBox.Pages.Link
 {
@@ -137,6 +138,8 @@ namespace LinkBox.Pages.Link
                 link.Description = link.Description.Substring(0, 2048);
             }
 
+            link.LastCheckTime = (DateTime)SqlDateTime.MinValue;
+            link.LastAvailableTime = (DateTime)SqlDateTime.MinValue;
 
             _db.Links.Add(link);
             await _db.SaveChangesAsync();
