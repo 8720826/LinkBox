@@ -58,7 +58,7 @@
                         <thead>
                             <tr>   
                                 <th>@Html.DisplayNameFor(model => model.Links[0].Title)</th>
-                                <th>@Html.DisplayNameFor(model => model.Links[0].Url) </th>
+                                <th style="width:80px">@Html.DisplayNameFor(model => model.Links[0].CategoryName) </th>
                                 <th style="width:60px">@Html.DisplayNameFor(model => model.Links[0].IsAvailable) </th>
                                 <th style="width:120px"> </th>
                             </tr>
@@ -67,11 +67,10 @@
                             @foreach (var item in Model.Links)
                             {
                                 <tr>
-                                    <td>
+                                    <td style="white-space:nowrap;word-break:keep-all;text-overflow:ellipsis;overflow:hidden;">
                                         <img src="@item.Icon" style="width:16px;height:16px;" />
                                         @Html.DisplayFor(modelItem => item.Title)
-                                    </td>
-                                    <td style="white-space:nowrap;word-break:keep-all;text-overflow:ellipsis;overflow:hidden;" title="@item.Url">
+                                        <br />
                                         @if (item.IsAvailable)
                                         {
                                             <a href="@item.Url" target="_blank">@Html.DisplayFor(modelItem => item.Url)</a>
@@ -80,7 +79,10 @@
                                         {
                                             <a href="@item.Url" target="_blank" style="color:#FF0000">@Html.DisplayFor(modelItem => item.Url)</a>
                                         }
-                                       
+
+                                    </td>
+                                    <td>
+                                        @(item.CategoryName)
                                     </td>
                                     @{
                                         var title = "";

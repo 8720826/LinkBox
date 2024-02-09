@@ -29,5 +29,7 @@ namespace LinkBox.Entities
 
         public DateTime LastAvailableTime { get; set; }
 
+        public virtual CategoryEntity? Category { get; set; }
+
     }
 }

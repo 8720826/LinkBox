@@ -41,7 +41,14 @@ namespace LinkBox.Pages.Link
                 PageSize = 10;
             }
 
-            var query = _db.Links.OrderByDescending(x => x.Id).ProjectToType<ListLinkDto>();
+            var config = new TypeAdapterConfig();
+            config.ForType<LinkEntity, ListLinkDto>()
+  .Map(dest => dest.CategoryName, src => (src.Category == null ? "未分类" : src.Category.Name));
+
+
+            var query = _db.Links.Include(x=>x.Category).OrderByDescending(x => x.Id).ProjectToType<ListLinkDto>(config);
+
+          
 
             Links = PaginatedList<ListLinkDto>.Create(query.AsNoTracking(), PageIndex, PageSize);
         }

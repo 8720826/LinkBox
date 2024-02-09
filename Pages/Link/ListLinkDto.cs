@@ -16,6 +16,8 @@ namespace LinkBox.Pages.Link
         [Display(Name = "地址")]
         public string Url { get; set; } = "";
 
+        [Display(Name = "分类")]
+        public string? CategoryName { get; set; } = "";
 
         [Display(Name = "描述")]
         public string? Description { get; set; } = "";
