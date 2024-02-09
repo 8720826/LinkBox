@@ -55,7 +55,8 @@ namespace LinkBox.Pages.Category
                 return Page();
             }
 
-            var category = Category.Adapt<CategoryEntity>();
+            var category = _db.Categories.Find(Category.Id);
+            Category.Adapt(category);
 
             _db.Categories.Update(category);
             await _db.SaveChangesAsync();

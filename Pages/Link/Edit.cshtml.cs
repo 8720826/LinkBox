@@ -127,8 +127,9 @@ namespace LinkBox.Pages.Link
                 }
             }
 
+            var link = _db.Links.Find(Link.Id);
+            Link.Adapt(link);
 
-            var link = Link.Adapt<LinkEntity>();
             link.Icon = link.Icon.CheckIsNullOrEmpty();
             link.Title = link.Title.CheckIsNullOrEmpty();
             link.Description = link.Description.CheckIsNullOrEmpty();
