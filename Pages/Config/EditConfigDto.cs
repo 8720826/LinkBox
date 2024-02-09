@@ -6,12 +6,12 @@ namespace LinkBox.Pages.Config
     {
 
 
-        [Required]
+        [Required(ErrorMessage = "请填写站点名称")]
         [Display(Name = "站点名称")]
         public string Name { get; set; } = "";
 
 
-        [Required]
+        [Required(ErrorMessage = "请填写标题")]
         [Display(Name = "标题")]
         public string Title { get; set; } = "";
     }

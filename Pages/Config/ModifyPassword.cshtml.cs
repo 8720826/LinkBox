@@ -7,14 +7,15 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace LinkBox.Pages.Config
 {
     [UserAuthorize]
-    public class PasswordModel : PageModel
+    public class ModifyPasswordModel : PageModel
     {
         [BindProperty]
         public EditPasswordDto Config { get; set; } = new EditPasswordDto { };
 
+        public string Message { get; set; } = "修改密码";
 
         private readonly LinkboxDbContext _db;
-        public PasswordModel(LinkboxDbContext db)
+        public ModifyPasswordModel(LinkboxDbContext db)
         {
             _db = db;
         }
@@ -30,20 +31,22 @@ namespace LinkBox.Pages.Config
 
         public async Task<IActionResult> OnPost()
         {
+            Message = "修改密码";
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            var config = _db.Configs.FirstOrDefault(); 
+            var config = _db.Configs.FirstOrDefault();
             if (config == null)
             {
-                return RedirectToPage("./Index");
+                ModelState.AddModelError("", "密码错误！");
+                return Page();
             }
 
-            if(config.Password!= Config.Password.ToMd5())
+            if (config.Password != Config.Password.ToMd5())
             {
-                ModelState.AddModelError("","密码错误！");
+                ModelState.AddModelError("", "密码错误！");
                 return Page();
             }
 
@@ -51,7 +54,11 @@ namespace LinkBox.Pages.Config
             _db.Configs.Update(config);
             await _db.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            Message = "修改成功";
+
+            Config = new EditPasswordDto { };
+
+            return Page();
         }
     }
 }
