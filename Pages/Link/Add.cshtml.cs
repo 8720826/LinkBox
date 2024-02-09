@@ -1,5 +1,4 @@
 using LinkBox.Contexts;
-using LinkBox.Entities.Enums;
 using LinkBox.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -9,7 +8,6 @@ using LinkBox.Authorizations;
 using Mapster;
 using LinkBox.Extentions;
 using LinkBox.Template;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Data.SqlTypes;
 
@@ -24,13 +22,15 @@ namespace LinkBox.Pages.Link
         public SelectList Categories { get; set; } = default!;
 
 
-
+        private readonly IHostEnvironment _hostEnvironment;
         private readonly LinkboxDbContext _db;
 
-        public AddModel(LinkboxDbContext db)
+        public AddModel(LinkboxDbContext db, IHostEnvironment hostEnvironment)
         {
             _db = db;
+            _hostEnvironment = hostEnvironment;
         }
+       
 
         public void OnGet()
         {
@@ -114,12 +114,30 @@ namespace LinkBox.Pages.Link
                 }
             }
 
-            if (Link.IsSaveIconToBase64 && !string.IsNullOrEmpty(Link.Icon) && Link.Icon.ToLower().StartsWith("http"))
+            if ( !string.IsNullOrEmpty(Link.Icon) && Link.Icon.ToLower().StartsWith("http"))
             {
-                var bytes = await Link.Url.DownloadByteAsync();
+                var bytes = await Link.Icon.DownloadByteAsync();
                 if (bytes != null)
                 {
-                    Link.Icon = $"data:image/jpeg;base64,{Convert.ToBase64String(bytes)}";
+                    if (Link.IsSaveIconToBase64)
+                    {
+                        Link.Icon = $"data:image/jpeg;base64,{Convert.ToBase64String(bytes)}";
+                    }
+                    else if (Link.IsSaveIconToLocal)
+                    {
+                        var ms = new MemoryStream(bytes);
+                        var path = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot/icon");
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+                        path = Path.Combine(path, $"{uri.Host}.ico");
+                        using (var fs = new FileStream(path, FileMode.OpenOrCreate))
+                        {
+                            ms.WriteTo(fs);
+                        }
+                        Link.Icon = $"/icon/{uri.Host}.ico";
+                    }
                 }
             }
 

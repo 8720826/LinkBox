@@ -43,7 +43,10 @@ namespace LinkBox.Pages.Link
         [Display(Name = "从网页读取图标")]
         public bool IsFetchIconFromLink { get; set; }
 
-        [Display(Name = "保存图标为Base64格式")]
+        [Display(Name = "保存图标到本地服务器")]
+        public bool IsSaveIconToLocal { get; set; }
+
+        [Display(Name = "图标转为Base64格式")]
         public bool IsSaveIconToBase64 { get; set; }
 
         [Display(Name = "从网页读取描述")]

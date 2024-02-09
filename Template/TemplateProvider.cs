@@ -69,13 +69,8 @@ namespace LinkBox.Template
             var defaultpath = Path.Combine(contentRootPath, "wwwroot", "template", file);
             var html = System.IO.File.ReadAllText(defaultpath, System.Text.Encoding.UTF8);
 
-            var dir = Path.Combine(contentRootPath, "data", "template");
-            if (!Directory.Exists(dir))
-            {
-                Directory.CreateDirectory(dir);
-            }
 
-            var newpath = Path.Combine(contentRootPath, "data", "template", file);
+            var newpath = Path.Combine(contentRootPath, "wwwroot", file);
             System.IO.File.WriteAllText(newpath, html);
 
             return html;
@@ -83,7 +78,7 @@ namespace LinkBox.Template
 
         public static void UpdateTemplate(string contentRootPath, string file, string content)
         {
-            var newpath = Path.Combine(contentRootPath, "data", "template", file);
+            var newpath = Path.Combine(contentRootPath, "wwwroot", file);
             System.IO.File.WriteAllText(newpath, content);
         }
 
@@ -95,7 +90,7 @@ namespace LinkBox.Template
 
         public static string Read(string contentRootPath, string file)
         {
-            var path = Path.Combine(contentRootPath, "data", "template", file);
+            var path = Path.Combine(contentRootPath, "wwwroot", file);
             return System.IO.File.ReadAllText(path, System.Text.Encoding.UTF8);
         }
 

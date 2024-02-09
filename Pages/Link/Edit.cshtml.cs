@@ -1,6 +1,5 @@
 using LinkBox.Authorizations;
 using LinkBox.Contexts;
-using LinkBox.Entities;
 using LinkBox.Extentions;
 using LinkBox.Models;
 using LinkBox.Template;
@@ -21,11 +20,13 @@ namespace LinkBox.Pages.Link
 
 
 
+        private readonly IHostEnvironment _hostEnvironment;
         private readonly LinkboxDbContext _db;
 
-        public EditModel(LinkboxDbContext db)
+        public EditModel(LinkboxDbContext db, IHostEnvironment hostEnvironment)
         {
             _db = db;
+            _hostEnvironment = hostEnvironment;
         }
 
         public IActionResult OnGet(int id)
@@ -118,12 +119,32 @@ namespace LinkBox.Pages.Link
                 }
             }
 
-            if (Link.IsSaveIconToBase64 && !string.IsNullOrEmpty(Link.Icon) && Link.Icon.ToLower().StartsWith("http"))
+            if (!string.IsNullOrEmpty(Link.Icon) && Link.Icon.ToLower().StartsWith("http"))
             {
-                var bytes = await Link.Url.DownloadByteAsync();
+                var bytes = await Link.Icon.DownloadByteAsync();
                 if (bytes != null)
                 {
-                    Link.Icon = $"data:image/jpeg;base64,{Convert.ToBase64String(bytes)}";
+                    if (Link.IsSaveIconToBase64)
+                    {
+                        Link.Icon = $"data:image/jpeg;base64,{Convert.ToBase64String(bytes)}";
+                    }
+                    else if (Link.IsSaveIconToLocal)
+                    {
+                        var ms = new MemoryStream(bytes);
+                        var path = Path.Combine(_hostEnvironment.ContentRootPath, "wwwroot/icon");
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+                        path = Path.Combine(path, $"{uri.Host}.ico");
+
+                        using (var fs = new FileStream(path, FileMode.OpenOrCreate))
+                        {
+                            ms.WriteTo(fs);
+                        }
+
+                        Link.Icon = $"/icon/{uri.Host}.ico";
+                    }
                 }
             }
 
