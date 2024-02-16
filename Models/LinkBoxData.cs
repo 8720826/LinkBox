@@ -28,12 +28,12 @@ namespace LinkBox.Models
 
                 if (Categories.Count == 0)
                 {
-                    Categories = db.Categories.ToList();
+                    Categories = db.Categories.OrderBy(x => x.SortId).ToList();
                 }
 
                 if (Links.Count == 0)
                 {
-                    Links = db.Links.ToList();
+                    Links = db.Links.OrderBy(x=>x.SortId).ToList();
                 }
 
                 if (Config == default!)
