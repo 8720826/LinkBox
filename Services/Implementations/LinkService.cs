@@ -1,3 +1,4 @@
+using LinkBox.Common.Exceptions;
 using LinkBox.Contexts;
 using LinkBox.DTOs;
 using LinkBox.Entities;
@@ -74,14 +75,14 @@ public class LinkService : ILinkService
 
     public async Task<int> CreateLinkAsync(CreateLinkRequest request)
     {
-        var link = request.Adapt<LinkEntity>();
-        
         // 验证 URL 格式
         if (!Uri.TryCreate(request.Url, UriKind.Absolute, out _))
         {
-            throw new ArgumentException("无效的 URL 格式");
+            throw new ValidationException("无效的 URL 格式");
         }
 
+        var link = request.Adapt<LinkEntity>();
+        
         _dbContext.Links.Add(link);
         await _dbContext.SaveChangesAsync();
         
@@ -94,7 +95,13 @@ public class LinkService : ILinkService
         var link = await _dbContext.Links.FindAsync(request.Id);
         if (link == null)
         {
-            throw new KeyNotFoundException($"未找到 ID 为 {request.Id} 的链接");
+            throw new NotFoundException($"未找到 ID 为 {request.Id} 的链接");
+        }
+
+        // 验证 URL 格式
+        if (!Uri.TryCreate(request.Url, UriKind.Absolute, out _))
+        {
+            throw new ValidationException("无效的 URL 格式");
         }
 
         link.CategoryId = request.CategoryId;
@@ -114,7 +121,7 @@ public class LinkService : ILinkService
         var link = await _dbContext.Links.FindAsync(id);
         if (link == null)
         {
-            throw new KeyNotFoundException($"未找到 ID 为 {id} 的链接");
+            throw new NotFoundException($"未找到 ID 为 {id} 的链接");
         }
 
         _dbContext.Links.Remove(link);
@@ -128,7 +135,7 @@ public class LinkService : ILinkService
         var link = await _dbContext.Links.FindAsync(id);
         if (link == null)
         {
-            throw new KeyNotFoundException($"未找到 ID 为 {id} 的链接");
+            throw new NotFoundException($"未找到 ID 为 {id} 的链接");
         }
 
         try
@@ -151,5 +158,36 @@ public class LinkService : ILinkService
             link.LastCheckTime = DateTime.Now;
             await _dbContext.SaveChangesAsync();
         }
+    }
+
+    /// <summary>
+    /// 批量创建链接
+    /// </summary>
+    public async Task<int> BulkCreateLinksAsync(List<CreateLinkRequest> requests)
+    {
+        if (requests == null || !requests.Any())
+        {
+            return 0;
+        }
+
+        var entities = new List<LinkEntity>();
+        foreach (var request in requests)
+        {
+            if (Uri.TryCreate(request.Url, UriKind.Absolute, out _))
+            {
+                entities.Add(request.Adapt<LinkEntity>());
+            }
+        }
+
+        if (!entities.Any())
+        {
+            return 0;
+        }
+
+        await _dbContext.Links.AddRangeAsync(entities);
+        await _dbContext.SaveChangesAsync();
+        
+        _logger.LogInformation("批量创建链接成功，数量：{Count}", entities.Count);
+        return entities.Count;
     }
 }

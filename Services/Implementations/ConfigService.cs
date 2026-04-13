@@ -1,4 +1,5 @@
 using System.Security.Cryptography;
+using LinkBox.Common.Exceptions;
 using LinkBox.Contexts;
 using LinkBox.DTOs;
 using LinkBox.Entities;
@@ -53,15 +54,31 @@ public class ConfigService : IConfigService
 
     public Task<bool> VerifyPasswordAsync(string password)
     {
-        // 简单密码验证，实际应该使用哈希比较
-        return Task.FromResult(password == _adminPassword);
+        // 首先尝试使用环境变量密码验证（用于初始登录）
+        if (password == _adminPassword)
+        {
+            return Task.FromResult(true);
+        }
+
+        // 然后尝试使用数据库中的哈希密码验证
+        var hashedPassword = _dbContext.Configs
+            .Where(c => c.Name == "Password")
+            .Select(c => c.Password)
+            .FirstOrDefault();
+
+        if (!string.IsNullOrEmpty(hashedPassword))
+        {
+            return Task.FromResult(VerifyHashedPassword(hashedPassword, password));
+        }
+
+        return Task.FromResult(false);
     }
 
     public async Task ChangePasswordAsync(string oldPassword, string newPassword)
     {
         if (!await VerifyPasswordAsync(oldPassword))
         {
-            throw new UnauthorizedAccessException("原密码错误");
+            throw new UnauthorizedException("原密码错误");
         }
 
         var config = await _dbContext.Configs.FirstOrDefaultAsync(c => c.Name == "Password");
@@ -85,7 +102,7 @@ public class ConfigService : IConfigService
     }
 
     /// <summary>
-    /// 哈希密码
+    /// 哈希密码 (SHA256)
     /// </summary>
     private static string HashPassword(string password)
     {
