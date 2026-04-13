@@ -1,4 +1,5 @@
 using LinkBox.Common;
+using LinkBox.Common.Exceptions;
 using LinkBox.Contexts;
 using LinkBox.DTOs;
 using LinkBox.Entities;
@@ -64,7 +65,7 @@ public class CategoryService : ICategoryService
         var category = await _dbContext.Categories.FindAsync(request.Id);
         if (category == null)
         {
-            throw new KeyNotFoundException($"未找到 ID 为 {request.Id} 的分类");
+            throw new NotFoundException($"未找到 ID 为 {request.Id} 的分类");
         }
 
         category.Name = request.Name;
@@ -81,19 +82,40 @@ public class CategoryService : ICategoryService
         var category = await _dbContext.Categories.FindAsync(id);
         if (category == null)
         {
-            throw new KeyNotFoundException($"未找到 ID 为 {id} 的分类");
+            throw new NotFoundException($"未找到 ID 为 {id} 的分类");
         }
 
         // 检查是否有链接使用该分类
         var linkCount = await _dbContext.Links.CountAsync(l => l.CategoryId == id);
         if (linkCount > 0)
         {
-            throw new InvalidOperationException($"无法删除分类：该分类下还有 {linkCount} 个链接");
+            throw new ValidationException($"无法删除分类：该分类下还有 {linkCount} 个链接");
         }
 
         _dbContext.Categories.Remove(category);
         await _dbContext.SaveChangesAsync();
         
         _logger.LogInformation("删除分类成功，ID: {CategoryId}", id);
+    }
+
+    /// <summary>
+    /// 批量删除分类
+    /// </summary>
+    public async Task<int> BulkDeleteCategoriesAsync(List<int> ids)
+    {
+        var count = 0;
+        foreach (var id in ids)
+        {
+            try
+            {
+                await DeleteCategoryAsync(id);
+                count++;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "删除分类失败，ID: {CategoryId}", id);
+            }
+        }
+        return count;
     }
 }

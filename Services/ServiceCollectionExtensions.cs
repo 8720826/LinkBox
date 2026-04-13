@@ -2,6 +2,7 @@ using LinkBox.Contexts;
 using LinkBox.DTOs;
 using LinkBox.Services.Implementations;
 using LinkBox.Services.Interfaces;
+using LinkBox.Validators;
 
 namespace LinkBox.Services;
 
@@ -15,12 +16,15 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
+        // 注册 FluentValidation 验证器
+        services.AddValidatorsFromAssemblyContaining<CreateLinkRequestValidator>();
+
         // 注册数据服务
         services.AddScoped<ILinkService, LinkService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IConfigService, ConfigService>();
         services.AddScoped<ITemplateService, TemplateService>();
-        
+
         return services;
     }
 }

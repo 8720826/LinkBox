@@ -1,4 +1,5 @@
 using LinkBox.Authorizations;
+using LinkBox.Common.Exceptions;
 using LinkBox.Contexts;
 using LinkBox.Jobs;
 using LinkBox.Mappings;
@@ -75,14 +76,43 @@ namespace LinkBox
                     options.JsonSerializerOptions.WriteIndented = false;
                 });
 
+            // 添加 FluentValidation 验证
+            builder.Services.AddFluentValidationAutoValidation();
+
+            // 添加 Swagger 文档
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Title = "LinkBox API",
+                    Version = "v1",
+                    Description = "LinkBox 书签管理系统 API"
+                });
+            });
+
             
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // 配置 HTTP 请求管道
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
+            }
+
+            // 注册全局异常处理中间件
+            app.UseMiddleware<GlobalExceptionMiddleware>();
+
+            // 启用 Swagger 文档
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "LinkBox API v1");
+                    c.RoutePrefix = "swagger";
+                });
             }
 
             app.UseDefaultFiles(new DefaultFilesOptions() { DefaultFileNames = new List<string> { "index.html" } });

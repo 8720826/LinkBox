@@ -1,49 +1,70 @@
 ```
-# Compiled and build artifacts
-*.exe
-*.dll
-*.so
-*.a
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Dd]epends/
+[Mm]erge/[Dd]ebug/
+[Mm]erge/[Rr]elease/
+build/
+
+# Visual Studio files
 *.obj
-*.out
-obj/
-bin/
-out/
+*.iobj
+*.pch
+*.pdb
+*.ipdb
+*.ilk
+*.iilk
+*.unopt
+*.opt
+*.metagen
+*.bin
+*.compiled
+*.appx
+*.appxbundle
+*.msix
+*.msixbundle
 
-# Dependencies
-node_modules/
-venv/
-.venv/
-__pycache__/
-.mypy_cache/
-.pytest_cache/
-target/
-.gradle/
+# Visual Studio Code files
+.vscode/
 
-# Logs and temp files
-*.log
-*.tmp
-*.swp
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.cs.cache
+*.csproj.nuget.dgspec.json
+*.csproj.nuget.g.props
+*.csproj.nuget.g.targets
 
 # Environment
 .env
 .env.local
 *.env.*
 
-# Editors
-.vscode/
-.idea/
+# Logs
+*.log
 
 # OS generated files
 .DS_Store
 Thumbs.db
+ehthumbs.db
+Icon?
+desktop.ini
 
-# Coverage reports
+# Testing
 coverage/
-htmlcov/
-.coverage
+*.cover
+*.log
 
-# Build outputs
-dist/
-build/
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
 ```
