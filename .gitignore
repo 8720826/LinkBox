@@ -1,1 +1,64 @@
-Nothing should be ignored since the changes only include source code files (.cs) and there are no build artifacts, dependencies, or temporary files in the provided lists.
+```
+# Build artifacts and compiled files
+*.dll
+*.exe
+*.pdb
+*.so
+*.dylib
+*.class
+*.o
+*.obj
+*.out
+
+# Dependencies
+packages/
+node_modules/
+vendor/
+
+# Build directories
+bin/
+obj/
+Debug/
+Release/
+build/
+dist/
+target/
+
+# IDE files
+.vs/
+.vscode/
+.idea/
+*.userprefs
+*.suo
+*.user
+*.aps
+*.ncb
+*.ilk
+*.iobj
+*.ipdb
+*.tlog
+
+# Logs
+*.log
+**/logs/
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Testing
+coverage/
+htmlcov/
+*.coverage
+
+# Temporary files
+*.tmp
+*.temp
+*~
+```

@@ -1,11 +1,9 @@
-using LinkBox.Authorizations;
-using LinkBox.Contexts;
-using LinkBox.Entities;
-using LinkBox.Models;
-using Mapster;
+using LinkBox.Services.Interfaces;
+using LinkBox.Entities.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Mapster;
 
 namespace LinkBox.Pages.Category
 {
@@ -13,17 +11,15 @@ namespace LinkBox.Pages.Category
     public class AddModel : PageModel
     {
         [BindProperty]
-        public AddCategoryDto Category { get; set; } = default!;
+        public CreateCategoryRequest Category { get; set; } = default!;
 
         public SelectList CategoryTypes { get; set; } = default!;
 
+        private readonly ICategoryService _categoryService;
 
-
-        private readonly LinkboxDbContext _db;
-
-        public AddModel(LinkboxDbContext db)
+        public AddModel(ICategoryService categoryService)
         {
-            _db = db;
+            _categoryService = categoryService;
         }
 
         public void OnGet()
@@ -44,14 +40,7 @@ namespace LinkBox.Pages.Category
                 return Page();
             }
 
-            var category = Category.Adapt<CategoryEntity>();
-
-
-
-            _db.Categories.Add(category);
-            await _db.SaveChangesAsync();
-            LinkBoxData.Refresh(true);
-
+            await _categoryService.CreateCategoryAsync(Category);
             return RedirectToPage("./Index");
         }
     }
