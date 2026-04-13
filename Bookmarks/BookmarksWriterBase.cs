@@ -16,7 +16,7 @@ namespace LinkBox.Bookmarks
         }
 
         /// <summary>
-        ///     Writes bookmarks to provided TextWritter. BookmarksWriter output encoding is not used in this method, you must
+        ///     Writes bookmarks to provided TextWriter. BookmarksWriter output encoding is not used in this method, you must
         ///     create TextWriter with correct encoding
         /// </summary>
         protected abstract void Write(TextWriter outputTextWriter);

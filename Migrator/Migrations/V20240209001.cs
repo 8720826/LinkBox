@@ -1,5 +1,5 @@
 ﻿using FluentMigrator;
-using LinkBox.Extentions;
+using LinkBox.Extensions;
 
 namespace LinkBox.Migrator.Migrations
 {

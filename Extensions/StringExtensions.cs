@@ -2,9 +2,9 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace LinkBox.Extentions
+namespace LinkBox.Extensions
 {
-    public static class StringExtentions
+    public static class StringExtensions
     {
         public static string CheckIsNullOrEmpty(this string input)
         {

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using LinkBox.Models;
 using LinkBox.Authorizations;
 using Mapster;
-using LinkBox.Extentions;
+using LinkBox.Extensions;
 using LinkBox.Template;
 using System;
 using System.Data.SqlTypes;
