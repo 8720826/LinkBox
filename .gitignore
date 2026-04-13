@@ -1,61 +1,31 @@
 ```
 # Compiled and build artifacts
-*.o
 *.obj
 *.exe
 *.dll
 *.so
 *.a
 *.out
-obj/
 
 # Dependencies
 bin/
 obj/
-*.userprefs
-.vs/
-*.suo
-*.user
-*.aps
-*.pch
-*.vspscc
-*.vssscc
-*_i.c
-*_p.c
-*.ilk
-*.meta
-*.pidb
-*.sbr
-*.tlb
-*.tli
-*.tlh
-*.tmp
-*.rsp
-*.pgc
-*.pgd
-*.dcu
-*.ddp
-*.dep
-*.dsk
-*.rc
-*.res
-*.rul
-*.sln.docstates
-*.userosscache
-*.sln.cache
-*.csproj.user
-*.vbproj.user
-*.userprefs
-*.cache
-*.dbmdl
-*.dbproj.schemaview
-*.publishsettings
-*.njsproj.nuget.dgspec.json
-*.njsproj.nuget.g.props
-*.njsproj.nuget.g.targets
-*.nupkg
-*.nuspec
 packages/
-*.VC.db
-*.VC.VC.opendb
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Editors
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
 ```
