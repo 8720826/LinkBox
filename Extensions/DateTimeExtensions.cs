@@ -1,8 +1,8 @@
 ﻿
 
-namespace LinkBox.Extentions
+namespace LinkBox.Extensions
 {
-    public static class DateTimeExtentions
+    public static class DateTimeExtensions
     {
         public static string ToFriendlyTime(this DateTime dateTime)
         {

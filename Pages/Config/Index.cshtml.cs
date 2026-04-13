@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using LinkBox.Authorizations;
 using Mapster;
-using LinkBox.Extentions;
+using LinkBox.Extensions;
 using LinkBox.Contexts;
 
 namespace LinkBox.Pages.Config

@@ -3,9 +3,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace LinkBox.Extentions
+namespace LinkBox.Extensions
 {
-    public static class HttpExtentions
+    public static class HttpExtensions
     {
         public static Uri CheckFormat(this string url)
         {

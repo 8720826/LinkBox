@@ -1,6 +1,6 @@
 using LinkBox.Authorizations;
 using LinkBox.Contexts;
-using LinkBox.Extentions;
+using LinkBox.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 

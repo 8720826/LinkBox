@@ -1,6 +1,6 @@
 using LinkBox.Authorizations;
 using LinkBox.Contexts;
-using LinkBox.Extentions;
+using LinkBox.Extensions;
 using LinkBox.Models;
 using LinkBox.Template;
 using Mapster;

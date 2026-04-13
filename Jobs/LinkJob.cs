@@ -1,5 +1,5 @@
 ﻿using LinkBox.Contexts;
-using LinkBox.Extentions;
+using LinkBox.Extensions;
 
 namespace LinkBox.Jobs
 {

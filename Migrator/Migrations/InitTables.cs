@@ -1,6 +1,6 @@
 ﻿using FluentMigrator;
 using LinkBox.Entities.Enums;
-using LinkBox.Extentions;
+using LinkBox.Extensions;
 using System.Data.SqlTypes;
 
 namespace LinkBox.Migrator.Migrations
