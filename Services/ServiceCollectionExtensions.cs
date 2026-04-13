@@ -1,3 +1,4 @@
+using FluentValidation;
 using LinkBox.Contexts;
 using LinkBox.DTOs;
 using LinkBox.Services.Implementations;
