@@ -1,20 +1,29 @@
 ```
 # Compiled and build artifacts
-*.obj
 *.exe
 *.dll
 *.so
 *.a
+*.obj
 *.out
+obj/
+bin/
+out/
 
 # Dependencies
-bin/
-obj/
-packages/
+node_modules/
+venv/
+.venv/
+__pycache__/
+.mypy_cache/
+.pytest_cache/
+target/
+.gradle/
 
 # Logs and temp files
 *.log
 *.tmp
+*.swp
 
 # Environment
 .env
@@ -28,4 +37,13 @@ packages/
 # OS generated files
 .DS_Store
 Thumbs.db
+
+# Coverage reports
+coverage/
+htmlcov/
+.coverage
+
+# Build outputs
+dist/
+build/
 ```
