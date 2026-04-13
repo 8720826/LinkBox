@@ -1,7 +1,4 @@
-using LinkBox.Authorizations;
-using LinkBox.Contexts;
-using LinkBox.Models;
-using Mapster;
+using LinkBox.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -10,50 +7,39 @@ namespace LinkBox.Pages.Category
     [UserAuthorize]
     public class DeleteModel : PageModel
     {
-      
-        public DeleteCategoryDto Category { get; set; } = default!;
+        private readonly ICategoryService _categoryService;
 
-
-        private readonly LinkboxDbContext _db;
-
-        public DeleteModel(LinkboxDbContext db)
+        public DeleteModel(ICategoryService categoryService)
         {
-            _db = db;
+            _categoryService = categoryService;
         }
-
 
         public IActionResult OnGet(int id)
         {
-            var category = _db.Categories.Find(id);
+            var category = _categoryService.GetCategoryByIdAsync(id).Result;
             if (category == null)
             {
                 return RedirectToPage("Index");
             }
 
-            Category = category.Adapt<DeleteCategoryDto>();
+            ViewData["CategoryName"] = category.Name;
+            ViewData["CategoryId"] = id;
 
             return Page();
         }
 
-
-        public  IActionResult OnPost(int id)
+        public IActionResult OnPost(int id)
         {
-            var category = _db.Categories.Find(id);
-            if (category == null)
+            try
             {
-                return RedirectToPage("Index");
+                _categoryService.DeleteCategoryAsync(id).Wait();
             }
-
-
-            if (_db.Links.Any(x => x.CategoryId == id))
+            catch (System.AggregateException ex) when (ex.InnerException is Common.Exceptions.ValidationException)
             {
-                ModelState.AddModelError("", "分类下还有链接，无法删除！");
+                ModelState.AddModelError("", ex.InnerException.Message);
+                ViewData["CategoryId"] = id;
                 return Page();
             }
-
-            _db.Categories.Remove(category);
-            _db.SaveChanges();
-            LinkBoxData.Refresh(true);
 
             return RedirectToPage("./Index");
         }

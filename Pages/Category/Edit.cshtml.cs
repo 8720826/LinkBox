@@ -1,13 +1,9 @@
-using LinkBox.Authorizations;
-using LinkBox.Contexts;
-using LinkBox.Entities;
+using LinkBox.Services.Interfaces;
 using LinkBox.Entities.Enums;
-using LinkBox.Models;
-using LinkBox.Pages.Link;
-using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Mapster;
 
 namespace LinkBox.Pages.Category
 {
@@ -15,29 +11,33 @@ namespace LinkBox.Pages.Category
     public class EditModel : PageModel
     {
         [BindProperty]
-        public EditCategoryDto Category { get; set; } = default!;
+        public UpdateCategoryRequest Category { get; set; } = default!;
 
         public SelectList CategoryTypes { get; set; } = default!;
 
+        private readonly ICategoryService _categoryService;
 
-        private readonly LinkboxDbContext _db;
-
-        public EditModel(LinkboxDbContext db)
+        public EditModel(ICategoryService categoryService)
         {
-            _db = db;
+            _categoryService = categoryService;
         }
-
 
         public IActionResult OnGet(int id)
         {
             Init();
-            var category = _db.Categories.Find(id);
+            var category = _categoryService.GetCategoryByIdAsync(id).Result;
             if (category == null)
             {
                 return RedirectToPage("Index");
             }
 
-            Category = category.Adapt<EditCategoryDto>();
+            Category = new UpdateCategoryRequest
+            {
+                Id = category.Id,
+                Name = category.Name,
+                SortId = category.SortId,
+                Type = category.Type
+            };
 
             return Page();
         }
@@ -55,13 +55,7 @@ namespace LinkBox.Pages.Category
                 return Page();
             }
 
-            var category = _db.Categories.Find(Category.Id);
-            Category.Adapt(category);
-
-            _db.Categories.Update(category);
-            await _db.SaveChangesAsync();
-            LinkBoxData.Refresh(true);
-
+            await _categoryService.UpdateCategoryAsync(Category);
             return RedirectToPage("./Index");
         }
     }

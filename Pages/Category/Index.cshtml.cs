@@ -1,28 +1,24 @@
-using Humanizer;
-using LinkBox.Authorizations;
-using LinkBox.Contexts;
-using LinkBox.Entities;
-using Mapster;
-using Microsoft.AspNetCore.Mvc;
+using LinkBox.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Mapster;
 
 namespace LinkBox.Pages.Category
 {
     [UserAuthorize]
     public class IndexModel : PageModel
     {
-        public List<ListCategoryDto> Categories { get; set; } = default!;
+        public List<CategoryDto> Categories { get; set; } = default!;
 
-        private readonly LinkboxDbContext _db;
+        private readonly ICategoryService _categoryService;
 
-        public IndexModel(LinkboxDbContext db)
+        public IndexModel(ICategoryService categoryService)
         {
-            _db = db;
+            _categoryService = categoryService;
         }
-        public void OnGet()
+        
+        public async Task OnGet()
         {
-            Categories = _db.Categories.ProjectToType<ListCategoryDto>().ToList();
+            Categories = await _categoryService.GetAllCategoriesAsync();
         }
     }
 }

@@ -1,12 +1,7 @@
-using LinkBox.Authorizations;
-using LinkBox.Contexts;
-using LinkBox.Extensions;
-using LinkBox.Models;
-using LinkBox.Template;
-using Mapster;
+using LinkBox.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Mapster;
 
 namespace LinkBox.Pages.Link
 {
@@ -14,39 +9,47 @@ namespace LinkBox.Pages.Link
     public class EditModel : PageModel
     {
         [BindProperty]
-        public EditLinkDto Link { get; set; } = default!;
+        public UpdateLinkRequest Link { get; set; } = default!;
 
-        public SelectList Categories { get; set; }
+        public SelectList Categories { get; set; } = default!;
 
-
-
+        private readonly ILinkService _linkService;
+        private readonly ICategoryService _categoryService;
         private readonly IHostEnvironment _hostEnvironment;
-        private readonly LinkboxDbContext _db;
 
-        public EditModel(LinkboxDbContext db, IHostEnvironment hostEnvironment)
+        public EditModel(ILinkService linkService, ICategoryService categoryService, IHostEnvironment hostEnvironment)
         {
-            _db = db;
+            _linkService = linkService;
+            _categoryService = categoryService;
             _hostEnvironment = hostEnvironment;
         }
 
-        public IActionResult OnGet(int id)
+        public async Task<IActionResult> OnGet(int id)
         {
-            Init();
-            var link = _db.Links.Find(id);
+            await Init();
+            var link = await _linkService.GetLinkByIdAsync(id);
             if (link == null)
             {
                 return RedirectToPage("Index");
             }
 
-            Link = link.Adapt<EditLinkDto>();
+            Link = new UpdateLinkRequest
+            {
+                Id = link.Id,
+                CategoryId = link.CategoryId,
+                Title = link.Title,
+                Url = link.Url,
+                Description = link.Description,
+                Icon = link.Icon,
+                SortId = link.SortId
+            };
 
             return Page();
         }
 
-        private void Init()
+        private async Task Init()
         {
-            var categories = _db.Categories.ToList();
-
+            var categories = await _categoryService.GetAllCategoriesAsync();
             Categories = new SelectList(categories, "Id", "Name");
         }
 
@@ -54,18 +57,19 @@ namespace LinkBox.Pages.Link
         {
             if (!ModelState.IsValid)
             {
-                Init();
+                await Init();
                 return Page();
             }
 
-            var uri = Link.Url.CheckFormat();
-            if (uri == null)
+            // 验证 URL 格式
+            if (!Uri.TryCreate(Link.Url, UriKind.Absolute, out var uri))
             {
-                ModelState.AddModelError("", "请填写有效的地址！");
-                Init();
+                ModelState.AddModelError("Url", "请填写有效的地址！");
+                await Init();
                 return Page();
             }
 
+            // 处理从网页抓取信息
             if (Link.IsFetchIconFromLink || Link.IsFetchTitleFromLink || Link.IsFetchDescriptionFromLink)
             {
                 var html = "";
@@ -100,25 +104,20 @@ namespace LinkBox.Pages.Link
                     }
                 }
 
-                if (Link.IsFetchTitleFromLink)
+                if (Link.IsFetchTitleFromLink && string.IsNullOrEmpty(html))
                 {
-                    if (string.IsNullOrEmpty(html))
-                    {
-                        html = await Link.Url.DownloadHtmlAsync();
-                    }
+                    html = await Link.Url.DownloadHtmlAsync();
                     Link.Title = html.ReadTitle();
                 }
 
-                if (Link.IsFetchDescriptionFromLink)
+                if (Link.IsFetchDescriptionFromLink && string.IsNullOrEmpty(html))
                 {
-                    if (string.IsNullOrEmpty(html))
-                    {
-                        html = await Link.Url.DownloadHtmlAsync();
-                    }
+                    html = await Link.Url.DownloadHtmlAsync();
                     Link.Description = html.ReadDescription();
                 }
             }
 
+            // 处理图标下载和保存
             if (!string.IsNullOrEmpty(Link.Icon) && Link.Icon.ToLower().StartsWith("http"))
             {
                 var bytes = await Link.Icon.DownloadByteAsync();
@@ -148,22 +147,7 @@ namespace LinkBox.Pages.Link
                 }
             }
 
-            var link = _db.Links.Find(Link.Id);
-            Link.Adapt(link);
-
-            link.Icon = link.Icon.CheckIsNullOrEmpty();
-            link.Title = link.Title.CheckIsNullOrEmpty();
-            link.Description = link.Description.CheckIsNullOrEmpty();
-
-
-            _db.Links.Update(link);
-            await _db.SaveChangesAsync();
-
-            LinkBoxData.Refresh(true);
-            if (Link.IsCompileImmediately)
-            {
-                TemplateProvider.NextCompileTime = DateTime.Now;
-            }
+            await _linkService.UpdateLinkAsync(Link);
             return RedirectToPage("./Index");
         }
     }
